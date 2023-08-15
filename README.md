@@ -1,1 +1,2 @@
 # obakememo
+DBapiフォルダはxmappのhtdocsの配下に置く

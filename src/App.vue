@@ -1,3 +1,13 @@
+<script>
+import SampleDB from './components/components/SampleDB.vue'
+
+export default {
+  components: {
+    SampleDB
+  }
+}
+</script>
+
 <template>
-  <div class="alert alert-primary" role="alert">お化けメモ</div>
+  <SampleDB></SampleDB>
 </template>
