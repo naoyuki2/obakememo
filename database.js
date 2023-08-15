@@ -1,6 +1,6 @@
 
 async function GetDatabaseData(func, args) {
-    const url = "http://localhost/DBapi/SQL.php";
+    const url = "http://localhost/SQL.php";
     const params = new URLSearchParams({
         mode: 'get',
         func: func,
@@ -26,7 +26,7 @@ async function GetDatabaseData(func, args) {
 }
 
 async function EditDatabaseData(func, args) {
-    const url = "http://localhost/DBapi/SQL.php";
+    const url = "http://localhost/SQL.php";
     const params = new URLSearchParams({
       mode: 'edit',
       func: func,
