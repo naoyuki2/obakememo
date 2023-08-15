@@ -1,2 +1,3 @@
 # obakememo
 DBapiフォルダはxmappのhtdocsの配下に置く
+xmappのapachとmysqlを起動する
