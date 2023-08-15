@@ -5,8 +5,7 @@
       メッセージ <input type="text" id="msg">
       <button @click="msgAdd">送信</button>
       <li v-for="item in dataList" :key="item.id">
-        {{ item['id'] }} :
-        {{ item['text'] }}
+        {{ item['id'] }} : {{ item['text'] }}
       </li>
 
     </ul>
