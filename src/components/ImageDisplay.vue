@@ -53,7 +53,7 @@
     padding: 5px;
     transition: opacity 0.3s ease-in-out;
     white-space: nowrap; /* テキストを改行させないようにする */
-    margin-bottom: 100px;
+    margin-bottom: 80px;
   }
   .image-container:hover .overlay-text {
     opacity: 1; /* カーソルを合わせたときに表示 */
