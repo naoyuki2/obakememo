@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { GetDatabaseData, EditDatabaseData } from '../../../database.js'
+import { GetDatabaseData, EditDatabaseData } from '../../database.js'
 
 export default {
   data() {
