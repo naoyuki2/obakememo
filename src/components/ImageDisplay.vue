@@ -50,10 +50,10 @@
     font-size: 18px;
     text-align: center;
     background-color: rgba(0, 0, 0, 0.7);
-    padding: 10px;
-    opacity: 0; /* 初めは非表示 */
+    padding: 5px;
     transition: opacity 0.3s ease-in-out;
     white-space: nowrap; /* テキストを改行させないようにする */
+    margin-bottom: 80px;
   }
   .image-container:hover .overlay-text {
     opacity: 1; /* カーソルを合わせたときに表示 */
