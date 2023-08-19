@@ -60,6 +60,7 @@
     <div class="main">
         <button><router-link to="/CalendarPage">カレンダー</router-link></button>
         <button><router-link to="/TestPage">テスト</router-link></button>
+        <button><router-link to="/SampleDB">テストDB</router-link></button>
         <div v-for="(imagePath, index) in imagePaths" :key="imagePath">
             <ImageDisplay 
             :imagePath="parentImagePath(imagePath)" 
