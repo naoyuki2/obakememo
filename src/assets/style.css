@@ -1,0 +1,10 @@
+  body {
+    font-family: 'Creepster', cursive;
+    text-align: center;
+    background-size: cover;
+    background-position:center center;
+    color: #ffffff;
+    height: 100vh;
+    cursor: pointer;
+    background-color: #696969;
+  }

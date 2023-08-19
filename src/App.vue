@@ -1,13 +1,7 @@
-<script>
-import SampleDB from './components/components/SampleDB.vue'
-
-export default {
-  components: {
-    SampleDB
-  }
-}
-</script>
-
 <template>
-  <SampleDB></SampleDB>
+  <router-view></router-view>
 </template>
+
+<style>
+    @import './assets/style.css';
+</style>
