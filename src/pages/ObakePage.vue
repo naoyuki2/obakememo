@@ -7,7 +7,7 @@
     },
     methods:{
         parentImagePath(imagePath) {
-            return require(`@/assets/obake${imagePath}.png`); // 変数を使用して画像のパスを指定
+            return require(`@/assets/img/obake${imagePath}.png`); // 変数を使用して画像のパスを指定
         },
     }
   };

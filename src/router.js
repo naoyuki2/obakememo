@@ -2,35 +2,41 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
     {
-        path:"/",
-        name:"HomePage",
+        path: "/",
+        name: "HomePage",
         component: () => import('./pages/HomePage.vue'),
     },
     {
-        path:"/CalendarPage",
-        name:"CalendarPage",
+        path: "/GravePage",
+        name: "GravePage",
+        component: () => import('./pages/GravePage.vue'),
+    },
+    {
+        path: "/CalendarPage",
+        name: "CalendarPage",
         component: () => import('./pages/CalendarPage.vue'),
     },
     {
-        path:"/TaskPage",
-        name:"TaskPage",
+        path: "/GhostPage",
+        name: "GhostPage",
+        component: () => import('./pages/GhostPage.vue'),
+    },
+    {
+        path: "/TaskPage",
+        name: "TaskPage",
         component: () => import('./pages/TaskPage.vue'),
         props: true
-    },{
-        path:"/TestPage",
-        name:"TestPage",
+    },
+    {
+        path: "/TestPage",
+        name: "TestPage",
         component: () => import('./pages/TestPage.vue')
     },
     {
-        path:"/ObakePage",
-        name:"ObakePage",
+        path: "/ObakePage",
+        name: "ObakePage",
         component: () => import('./pages/ObakePage.vue')
     },
-    {
-        path:"/SampleDB",
-        name:"SampleDB",
-        component: () => import('./components/SampleDB.vue')
-    }
 ]
 
 const router = createRouter({
