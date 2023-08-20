@@ -30,7 +30,7 @@ export default{
       this.currentMonth = this.currentMonth != 12 ? this.currentMonth + 1 : 1;
       this.currentYear = this.currentMonth != 1 ? this.currentYear : this.currentYear + 1;
     },
-    TaskPage(day,month){
+    TaskPage(day,month,year){
       if(day != " "){
         this.$router.push({
         name: 'TaskPage',
@@ -38,7 +38,8 @@ export default{
           id: this.userId,
           text: this.userText,
           day: day,
-          month: month
+          month: month,
+          year: year
         }
       });
       }
@@ -102,7 +103,7 @@ export default{
             :key="dayIndex"
             class="day"
             :class="{ 'today': isToday(day) }"
-            @click="TaskPage(day,currentMonth)"
+            @click="TaskPage(day,currentMonth,currentYear)"
           >
             {{ day }}
           </td>

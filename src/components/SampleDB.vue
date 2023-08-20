@@ -1,12 +1,18 @@
 <template>
   <div>
-    <router-link to="/">戻る</router-link>
     <h1>Data List</h1>
+    <button><router-link to="/">戻る</router-link></button>
     <ul>
-      メッセージ <input type="text" id="msg">
+        タスク名<input type="text" id="msg"><br>
+        おばけタイプ<input type="number" id="path" >
       <button @click="msgAdd">送信</button>
       <li v-for="item in dataList" :key="item.id">
-        {{ item['id'] }} : {{ item['text'] }}
+        {{ item['id'] }} : {{ item['text'] }} : 
+        <ImageDisplay 
+        :imagePath="parentImagePath(item['path'])"
+        :text="item['text']"
+        />
+        
       </li>
 
     </ul>
@@ -15,8 +21,12 @@
 
 <script>
 import { GetDatabaseData, EditDatabaseData } from '../../database.js'
+import ImageDisplay from "../components/ImageDisplay.vue";
 
 export default {
+  components: {
+    ImageDisplay,
+  },
   data() {
     return {
       dataList: [],
@@ -37,17 +47,22 @@ export default {
     },
     async msgAdd() {
       const msg = document.getElementById("msg").value;
+      const path = document.getElementById("path").value;
       const func = 'DbInsert'
       const args = {
         tbl: "sampletbl",
         records: {
           id: '',
-          text: msg
+          text: msg,
+          path: path
         }
       }
       await EditDatabaseData(func, args)
       await this.msgShow()
-    }
+    },
+    parentImagePath(imagePath) {
+      return require(`@/assets/obake${imagePath}.png`); // 変数を使用して画像のパスを指定
+    },
   },
 }
 </script>
