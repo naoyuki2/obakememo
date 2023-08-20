@@ -5,8 +5,8 @@
                 <div class="container">
                     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                         <div class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-                            <img src="img/おばけめも：Ghost Memo-logos_white_copy.png" class="bi me-2" width="160" height="80"
-                                role="img" aria-label="Bootstrap">
+                            <img src="" class="bi me-2" width="160" height="80"
+                                role="img" aria-label="Bootstrap" alt="アイコン">
                         </div>
 
                         <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
@@ -33,6 +33,9 @@
                                     <img src="@/assets/img/Ghost.png" class="bi d-block mx-auto mb-1" width="45" height="30">
                                     <router-link to="GhostPage">幽霊</router-link>
                                 </div>
+                            </li>
+                            <li>
+                                <router-link to="/SampleDB">SampleDBへ</router-link>
                             </li>
                         </ul>
                     </div>

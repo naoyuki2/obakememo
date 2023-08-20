@@ -37,6 +37,11 @@ const routes = [
         name: "ObakePage",
         component: () => import('./pages/ObakePage.vue')
     },
+    {
+        path:"/SampleDB",
+        name:"SampleDB",
+        component: () => import('./components/SampleDB.vue')
+    }
 ]
 
 const router = createRouter({

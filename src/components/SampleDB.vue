@@ -1,5 +1,6 @@
 <template>
   <div>
+    <router-link to="/">戻る</router-link>
     <h1>Data List</h1>
     <ul>
       メッセージ <input type="text" id="msg">
