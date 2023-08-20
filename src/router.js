@@ -35,7 +35,8 @@ const routes = [
     {
         path: "/ObakePage",
         name: "ObakePage",
-        component: () => import('./pages/ObakePage.vue')
+        component: () => import('./pages/ObakePage.vue'),
+        props: true
     },
     {
         path:"/SampleDB",

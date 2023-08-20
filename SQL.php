@@ -22,7 +22,7 @@ try {
 
 function GetConnect()
 {
-    $dsn = "mysql:host=localhost;dbname=testdb";
+    $dsn = "mysql:host=localhost;dbname=obakememo";
     $user = 'root';
     $password = '';
     return new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
