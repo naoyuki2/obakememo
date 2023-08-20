@@ -43,6 +43,13 @@ export default{
       });
       }
     },
+    isToday(day) {
+      return (
+        day === this.currentDate &&
+        this.currentMonth === new Date().getMonth() + 1 &&
+        this.currentYear === new Date().getFullYear()
+      );
+    },
   },
   computed:{
     calendarMake(){
@@ -75,7 +82,7 @@ export default{
     <button><router-link to="/">戻る</router-link></button>
     <div><h1 class="calendar-title">
       <span @click="movePrevMonth">[前の月]</span>
-      {{currentYear+"月"+currentMonth+"日"}}
+      {{currentYear+"年"+currentMonth+"月"}}
       <span @click="moveNextMonth">[次の月]</span>
     </h1></div>
     <div class="center">
@@ -94,6 +101,7 @@ export default{
             v-for="(day, dayIndex) in week"
             :key="dayIndex"
             class="day"
+            :class="{ 'today': isToday(day) }"
             @click="TaskPage(day,currentMonth)"
           >
             {{ day }}
@@ -177,5 +185,8 @@ th {
   transition-delay: 0s;
   transition: opacity .8s, transform .6s ease-in-out;
 }
-
+.today {
+  color: #808080;
+  background-color:#d3d3d3;
+}
 </style>

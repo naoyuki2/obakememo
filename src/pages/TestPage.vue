@@ -12,7 +12,7 @@
 export default {
   data() {
     return {
-      imagePath: require('@/assets/obake1.png') // 画像のパスをここで指定
+      imagePath: require('@/assets/img/obake1.png') // 画像のパスをここで指定
     };
   },
   mounted() {
