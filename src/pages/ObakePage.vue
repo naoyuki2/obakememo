@@ -32,8 +32,8 @@ export default {
     },
     dataProcessing(rawData) {
       let splitData = rawData.split("。")
-      let processingData = ""
-      for (let index = 0; index < splitData.length - 1; index++) {
+      let processingData = splitData[0] + "。<br><br>"
+      for (let index = 1; index < splitData.length - 1; index++) {
         processingData += splitData[index] + "。<br><br>"
       }
       return processingData

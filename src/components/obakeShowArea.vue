@@ -7,8 +7,9 @@ export default {
     },
     methods: {
         parentImagePath(imagePath) {
+            console.log(imagePath);
             const PathSplit = imagePath.split("/")
-            return require(`@/assets/img/${PathSplit[3]}`); // 変数を使用して画像のパスを指定
+            return require(`@/assets/img/${PathSplit[3]}`) // 変数を使用して画像のパスを指定
         },
     }
 }

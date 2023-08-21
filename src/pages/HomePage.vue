@@ -45,7 +45,7 @@ export default {
                 query: {
                     taskId: task['task_id'],
                     taskName: task['task_name'],
-                    taskDescription: task['task_descrption'],
+                    taskDescription: task['task_description'],
                     obakePath: task['obake_path']
                 },
             });
