@@ -12,24 +12,12 @@
           <br>        
     </div>
         <br><h1 class="plus" @click="msgAdd()">この内容で課題を追加する</h1>
-        <div v-for="item in dataList" :key="item.id">
-          {{ item['id'] }} : {{ item['text'] }} : 
-          <ImageDisplay 
-          :imagePath="parentImagePath(item['path'])"
-          :text="item['text']"
-          />
-        </div>
-        <div class="Insert"></div>
   </template>
   
   <script>
   import { EditDatabaseData, GetDatabaseData } from '../../database.js'
-  import ImageDisplay from "../components/ImageDisplay.vue";
   
   export default {
-    components: {
-      ImageDisplay,
-    },
     data() {
       return {
         dataList: [],
