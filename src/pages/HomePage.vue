@@ -7,49 +7,36 @@ export default {
     },
     data() {
         return {
-            imagePaths: [
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-                "6",
-                "7",
-                "8",
-                "9",
-                "10",
-                "11",
-                "12",
-                // 他の画像パスを追加
-            ],
-            texts: [
-                "Javaの課題",
-                "2",
-                "3",
-                "4",
-                "5",
-                "6",
-                "7",
-                "8",
-                "9",
-                "10",
-                "11",
-                "12",
-                // 他の画像パスを追加
+            tasks: [
+                {
+                    task_id: 1,
+                    task_name: 'Java課題',
+                    task_description: 'JSの課題だ。DOM操作を使用した動きのあるアプリケーションの開発を行いう。9月までだ。',
+                    obake_path: '@/assets/img/obake1.png'
+                },
+                {
+                    task_id: 2,
+                    task_name: 'PHP課題',
+                    task_description: 'JSの課題だ。DOM操作を使用した動きのあるアプリケーションの開発を行いう。9月までだ。',
+                    obake_path: '@/assets/img/obake2.png'
+                },
             ],
         };
     },
     methods: {
         parentImagePath(imagePath) {
-            return require(`@/assets/img/obake${imagePath}.png`); // 変数を使用して画像のパスを指定
+            const PathSplit = imagePath.split("/")
+            return require(`@/assets/img/${PathSplit[3]}`); // 変数を使用して画像のパスを指定
         },
-        ObakePage(imagePath, text) {
+        ObakePage(task) {
             this.$router.push({
                 name: 'ObakePage',
                 query: {
-                    path: imagePath,
-                    text: text
-                }
+                    taskId: task['task_id'],
+                    taskName: task['task_name'],
+                    taskDescription: task['task_description'],
+                    obakePath: task['obake_path']
+                },
             });
         },
     }
@@ -58,9 +45,9 @@ export default {
 
 <template>
     <div class="main">
-        <div v-for="(imagePath, index) in imagePaths" :key="imagePath">
-            <ImageDisplay :imagePath="parentImagePath(imagePath)" :text="texts[index]"
-                @click="ObakePage(imagePath, texts[index])" />
+        <div v-for="task in tasks" :key="task">
+            <ImageDisplay :imagePath="parentImagePath(task['obake_path'])" :text="task['task_name']"
+                @click="ObakePage(task)" />
         </div>
     </div>
 </template>

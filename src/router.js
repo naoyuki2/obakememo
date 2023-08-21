@@ -35,13 +35,24 @@ const routes = [
     {
         path: "/ObakePage",
         name: "ObakePage",
-        component: () => import('./pages/ObakePage.vue')
+        component: () => import('./pages/ObakePage.vue'),
+        props: true
     },
     {
         path:"/SampleDB",
         name:"SampleDB",
         component: () => import('./components/SampleDB.vue')
-    }
+    },
+    {
+        path:"/InsertPage",
+        name:"InsertPage",
+        component: () => import('./pages/InsertPage.vue'),
+    },
+    {
+        path:"/UpdatePage",
+        name:"UpdatePage",
+        component: () => import('./pages/UpdatePage.vue')
+    },
 ]
 
 const router = createRouter({
