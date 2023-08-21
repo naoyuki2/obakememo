@@ -39,11 +39,6 @@ const routes = [
         props: true
     },
     {
-        path:"/SampleDB",
-        name:"SampleDB",
-        component: () => import('./components/SampleDB.vue')
-    },
-    {
         path:"/InsertPage",
         name:"InsertPage",
         component: () => import('./pages/InsertPage.vue'),

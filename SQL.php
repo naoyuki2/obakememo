@@ -28,18 +28,18 @@ function GetConnect()
     return new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 }
 
-function GetData(string $tblname, string $expression, string $join = "")
+function GetData(string $tblname, string $expression, string $join)
 {
     $rtn = '';
     $pdo = GetConnect();
-    $sql = "select * from $tblname {$join} where $expression";
+    $sql = "select task.*,obake.obake_path from $tblname {$join} where $expression";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
     $rtn = $stmt->fetch();
     return $rtn;
 }
 
-function GetListAll(string $tblname, string $expression = "1", string $join = "")
+function GetListAll(string $tblname, string $expression, string $join)
 {
     $rtn = '';
     $pdo = GetConnect();

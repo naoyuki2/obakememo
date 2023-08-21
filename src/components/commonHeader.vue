@@ -34,9 +34,6 @@
                                     <router-link to="GhostPage">幽霊</router-link>
                                 </div>
                             </li>
-                            <li>
-                                <router-link to="/SampleDB">SampleDBへ</router-link>
-                            </li>
                         </ul>
                     </div>
                 </div>

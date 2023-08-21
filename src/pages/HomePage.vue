@@ -1,5 +1,6 @@
 <script>
 import ImageDisplay from "../components/ImageDisplay.vue";
+import { GetDatabaseData} from '../../database.js'
 
 export default {
     components: {
@@ -21,7 +22,17 @@ export default {
                     obake_path: '@/assets/img/obake2.png'
                 },
             ],
+            dataList: [],
         };
+    },
+    created(){
+        const date  = new Date();
+        [this.currentYear,  this.currentMonth, this.currentDate] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
+        this.today = this.selectedDay = `${this.currentYear}-${('0' + this.currentMonth).slice(-2)}-${this.currentDate}`;
+
+    },
+    mounted() {
+      this.msgShow()
     },
     methods: {
         parentImagePath(imagePath) {
@@ -34,10 +45,35 @@ export default {
                 query: {
                     taskId: task['task_id'],
                     taskName: task['task_name'],
-                    taskDescription: task['task_description'],
+                    taskDescription: task['task_descrption'],
                     obakePath: task['obake_path']
                 },
             });
+        },
+        async msgShow() {
+            const dl = this.today + " 00:00:00";
+            const func = 'GetListAll';
+            const args = {
+            tbl: "task",
+            where: `dead_line = '${dl}'`,
+            join: "inner join obake on task.obake_id = obake.obake_id"
+            };
+
+            const data = await GetDatabaseData(func, args);
+            this.dataList = data;
+        },
+        async reload() {
+            const bdl = document.getElementById("date").value;
+            const dl = bdl + " 00:00:00";
+            const func = 'GetListAll';
+            const args = {
+            tbl: "task",
+            where: `dead_line = '${dl}'`,
+            join: "inner join obake on task.obake_id = obake.obake_id"
+            };
+
+            const data = await GetDatabaseData(func, args);
+            this.dataList = data;
         },
     }
 };
@@ -45,9 +81,14 @@ export default {
 
 <template>
     <div class="main">
+        <input type="date" id="date"><button @click="reload">のタスクを表示</button>
         <div v-for="task in tasks" :key="task">
             <ImageDisplay :imagePath="parentImagePath(task['obake_path'])" :text="task['task_name']"
                 @click="ObakePage(task)" />
+        </div>
+        <div v-for="item in dataList" :key="item">
+            <ImageDisplay :imagePath="parentImagePath(item['obake_path'])" :text="item['task_name']"
+                @click="ObakePage(item)" />
         </div>
     </div>
 </template>
