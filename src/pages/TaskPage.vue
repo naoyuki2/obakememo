@@ -69,36 +69,3 @@
         </div>
     <h1 class="plus" @click="InsertPage(this.$route.query.year,this.$route.query.month,this.$route.query.day,dayOfWeek)">課題を追加</h1>
 </template>
-
-<style scoped>
-.date{
-  font-size: 30px;
-  background-color:#808080;
-  border-radius: 50px 50px 0 0;
-  border: 3px solid #fff;
-  width: 500px;
-  padding: 25px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.task{
-  margin-bottom: 8px;
-  font-size: 30px;
-  background-color:#808080;
-  border: 3px solid #fff;
-  width: 500px;
-  height: 50px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.plus{
-  font-size: 30px;
-  background-color:#808080;
-  border-radius: 30px 30px 0 0;
-  border: 3px solid #fff;
-  width: 550px;
-  padding: 25px;
-  margin-left: auto;
-  margin-right: auto;
-}
-</style>

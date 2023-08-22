@@ -3,9 +3,9 @@
   Update
   <h1 class="date">{{ this.$route.query.month }}月{{ this.$route.query.day }}日({{ this.$route.query.week }})の課題</h1>
   <div v-for="item in dataList" :key="item.id">
-        <input type="text" id="task_name" placeholder="タスク名を入力" :value="item.task_name"><br>
-        <input type="text" id="task_description" placeholder="タスクの説明を入力" :value="item.task_description"><br>
-        <select id="priority_id" v-model="selectedPriority">
+    <input class="IUgrave" type="text" id="task_name" placeholder="タスク名を入力" :value="item.task_name"><br>
+        <input class="IUgrave" type="text" id="task_description" placeholder="タスクの説明を入力" :value="item.task_description"><br>
+        <select class="IUgrave" id="priority_id" v-model="selectedPriority">
           <option>重要度を選択</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -78,43 +78,3 @@ export default{
   }
 }
 </script>
-
-<style scoped>
-.date{
-  font-size: 30px;
-  background-color:#808080;
-  border-radius: 50px 50px 0 0;
-  border: 3px solid #fff;
-  width: 500px;
-  padding: 25px;
-  margin-left: auto;
-  margin-right: auto;
-}
-input,select{
-  margin-bottom: 8px;
-  font-size: 30px;
-  background-color:#808080;
-  border: 3px solid #fff;
-  width: 500px;
-  height: 50px;
-  margin-left: auto;
-  margin-right: auto;
-  color: #fff;
-}
-.plus{
-  font-size: 30px;
-  background-color:#808080;
-  border-radius: 30px 30px 0 0;
-  border: 3px solid #fff;
-  width: 550px;
-  padding: 25px;
-  margin-left: auto;
-  margin-right: auto;
-}
-input::placeholder {
-  color: #fff; /* 好みの色を指定 */
-}
-input:focus {
-  background-color: #696969; /* フォーカス時の背景色を指定 */
-}
-</style>
