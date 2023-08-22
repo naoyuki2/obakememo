@@ -1,5 +1,5 @@
 <template>
-  <h1 class="date">{{ this.$route.query.month }}月{{ this.$route.query.day }}日の課題</h1>
+  <h1 class="date">{{ this.$route.query.month }}月{{ this.$route.query.day }}日({{ this.$route.query.week }})の課題</h1>
   <div class="">
         <input type="text" id="task_name" placeholder="タスク名を入力"><br>
         <input type="text" id="task_description" placeholder="タスクの説明を入力"><br>

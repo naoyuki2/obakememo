@@ -1,7 +1,7 @@
 <template>
   <button @click="back(this.$route.query.year,this.$route.query.month,this.$route.query.day)">戻る</button>
   Update
-  <h1 class="date">{{ this.$route.query.month }}月{{ this.$route.query.day }}日の課題</h1>
+  <h1 class="date">{{ this.$route.query.month }}月{{ this.$route.query.day }}日({{ this.$route.query.week }})の課題</h1>
   <div v-for="item in dataList" :key="item.id">
         <input type="text" id="task_name" placeholder="タスク名を入力" :value="item.task_name"><br>
         <input type="text" id="task_description" placeholder="タスクの説明を入力" :value="item.task_description"><br>
