@@ -81,7 +81,7 @@ export default {
 
 <template>
     <div class="main">
-        <input type="date" id="date"><button @click="reload">のタスクを表示</button>
+        <input type="date" id="date" :value="today"><button @click="reload">のタスクを表示</button>
         <div v-for="task in tasks" :key="task">
             <ImageDisplay :imagePath="parentImagePath(task['obake_path'])" :text="task['task_name']"
                 @click="ObakePage(task)" />

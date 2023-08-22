@@ -32,7 +32,7 @@ export default {
     async msgAdd() {
       try {
         const tn = document.getElementById("task_name").value;
-        const td = document.getElementById("task_descrption").value;
+        const td = document.getElementById("task_description").value;
         const pi = document.getElementById("priority_id").value;
         const year = this.$route.query.year;
         const month = this.$route.query.month;
@@ -75,9 +75,6 @@ export default {
     },
     generateRandomObakeId() {
       return Math.floor(Math.random() * this.Rand) + 1;
-    },
-    parentImagePath(imagePath) {
-      return require(`@/assets/img/obake${imagePath}.png`); // 変数を使用して画像のパスを指定
     },
     back(year, month, day) {
       this.$router.push({

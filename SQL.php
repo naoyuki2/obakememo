@@ -86,7 +86,7 @@ function DbInsert(string $tblname, array $arr)
     $stmt->execute();
 }
 
-function DbUpdate(string $tblname, array $arr, string $expression = "1")
+function DbUpdate(string $tblname, array $arr, string $expression)
 {
     $pdo = GetConnect();
     $setColumn = "";
