@@ -39,4 +39,10 @@ input:focus,select:focus {
   background-color: #696969;
   /* フォーカス時の背景色を指定 */
 }
+.saturday {
+  background-color: #80808f;
+}
+.sunday {
+  background-color: #8f8080;
+}
 /*↑墓石関係のCSS↑*/
