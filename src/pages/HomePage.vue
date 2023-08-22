@@ -9,6 +9,7 @@ export default {
     data() {
         return {
             tasks: [
+                /*
                 {
                     task_id: 1,
                     task_name: 'Java課題',
@@ -21,18 +22,18 @@ export default {
                     task_description: 'JSの課題だ。DOM操作を使用した動きのあるアプリケーションの開発を行いう。9月までだ。',
                     obake_path: '@/assets/img/obake2.png'
                 },
+                */
             ],
-            dataList: [],
+
         };
     },
     created(){
         const date  = new Date();
-        [this.currentYear,  this.currentMonth, this.currentDate] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
+        [this.currentYear, this.currentMonth, this.currentDate] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
         this.today = this.selectedDay = `${this.currentYear}-${('0' + this.currentMonth).slice(-2)}-${this.currentDate}`;
-
     },
     mounted() {
-      this.msgShow()
+      this.getObakeList()
     },
     methods: {
         parentImagePath(imagePath) {
@@ -50,30 +51,25 @@ export default {
                 },
             });
         },
-        async msgShow() {
-            const dl = this.today + " 00:00:00";
-            const func = 'GetListAll';
+        async getObakeList() {
+            const todayDateTime = this.today + " 00:00:00"
+            const designationDateTime = document.getElementById('date').value
+            console.log(designationDateTime)
+            let expression = ""  
+            if(designationDateTime) {
+                expression = `dead_line = '${designationDateTime}'`
+            } else {
+                expression = `dead_line >= '${todayDateTime}'`
+            }
+            const func = 'GetListAll'
             const args = {
             tbl: "task",
-            where: `dead_line = '${dl}'`,
+            where: expression,
             join: "inner join obake on task.obake_id = obake.obake_id"
-            };
+            }
 
-            const data = await GetDatabaseData(func, args);
-            this.dataList = data;
-        },
-        async reload() {
-            const bdl = document.getElementById("date").value;
-            const dl = bdl + " 00:00:00";
-            const func = 'GetListAll';
-            const args = {
-            tbl: "task",
-            where: `dead_line = '${dl}'`,
-            join: "inner join obake on task.obake_id = obake.obake_id"
-            };
-
-            const data = await GetDatabaseData(func, args);
-            this.dataList = data;
+            const data = await GetDatabaseData(func, args)
+            this.tasks = data
         },
     }
 };
@@ -81,14 +77,10 @@ export default {
 
 <template>
     <div class="main">
-        <input type="date" id="date" :value="today"><button @click="reload">のタスクを表示</button>
+        <input type="date" id="date" :value="today"><button @click="getObakeList">のタスクを表示</button>
         <div v-for="task in tasks" :key="task">
             <ImageDisplay :imagePath="parentImagePath(task['obake_path'])" :text="task['task_name']"
                 @click="ObakePage(task)" />
-        </div>
-        <div v-for="item in dataList" :key="item">
-            <ImageDisplay :imagePath="parentImagePath(item['obake_path'])" :text="item['task_name']"
-                @click="ObakePage(item)" />
         </div>
     </div>
 </template>
