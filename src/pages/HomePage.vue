@@ -1,6 +1,6 @@
 <script>
 import ImageDisplay from "../components/ImageDisplay.vue";
-import { GetDatabaseData} from '../../database.js'
+import { GetDatabaseData } from '../../database.js'
 
 export default {
     components: {
@@ -27,13 +27,13 @@ export default {
 
         };
     },
-    created(){
-        const date  = new Date();
+    created() {
+        const date = new Date();
         [this.currentYear, this.currentMonth, this.currentDate] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
         this.today = this.selectedDay = `${this.currentYear}-${('0' + this.currentMonth).slice(-2)}-${this.currentDate}`;
     },
     mounted() {
-      this.getObakeList()
+        this.getObakeList()
     },
     methods: {
         parentImagePath(imagePath) {
@@ -55,29 +55,34 @@ export default {
             const todayDateTime = this.today + " 00:00:00"
             const designationDateTime = document.getElementById('date').value
             console.log(designationDateTime)
-            let expression = ""  
-            if(designationDateTime) {
+            let expression = ""
+            if (designationDateTime) {
                 expression = `dead_line = '${designationDateTime}'`
             } else {
                 expression = `dead_line >= '${todayDateTime}'`
             }
             const func = 'GetListAll'
             const args = {
-            tbl: "task",
-            where: expression,
-            join: "inner join obake on task.obake_id = obake.obake_id"
+                tbl: "task",
+                where: expression,
+                join: "inner join obake on task.obake_id = obake.obake_id"
             }
 
             const data = await GetDatabaseData(func, args)
             this.tasks = data
         },
+        calendarClear() {
+            document.getElementById('date').value = ""
+        }
     }
 };
 </script>
 
 <template>
     <div class="main">
-        <input type="date" id="date" :value="today"><button @click="getObakeList">のタスクを表示</button>
+        <input type="date" id="date" :value="today">
+        <button @click="getObakeList">のタスクを表示</button>
+        <button @click="calendarClear">日付クリア</button>
         <div v-for="task in tasks" :key="task">
             <ImageDisplay :imagePath="parentImagePath(task['obake_path'])" :text="task['task_name']"
                 @click="ObakePage(task)" />

@@ -2,7 +2,7 @@
 import commonHeader from './components/commonHeader.vue'
 
 export default {
-  components:{
+  components: {
     commonHeader
   }
 }
@@ -10,9 +10,21 @@ export default {
 
 <template>
   <commonHeader></commonHeader>
-  <router-view></router-view>
+  <Transition mode=”out-in”>
+    <router-view></router-view>
+  </Transition>
 </template>
 
 <style>
-    @import './assets/css/style.css';
+@import './assets/css/style.css';
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 1s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 </style>
