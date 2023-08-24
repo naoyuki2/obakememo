@@ -28,7 +28,7 @@ function GetConnect()
     return new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 }
 
-function GetData(string $tblname, string $where = "", string $join = "", $alias = "", $group = "", $order = "", $having = "")
+function GetData($tblname, $where = "", $join = "", $alias = "", $group = "", $order = "", $having = "")
 {
     $rtn = "";
     $pdo = GetConnect();
@@ -44,7 +44,7 @@ function GetData(string $tblname, string $where = "", string $join = "", $alias 
     return $rtn;
 }
 
-function GetListAll(string $tblname, string $where = "", string $join = "", $alias = "", $group = "", $order = "", $having = "")
+function GetListAll($tblname, $where = "", $join = "", $alias = "*", $group = "", $order = "", $having = "")
 {
     $rtn = "";
     $pdo = GetConnect();
@@ -53,14 +53,14 @@ function GetListAll(string $tblname, string $where = "", string $join = "", $ali
     !empty($group) ? $group = "group by " . $group : "";
     !empty($order) ? $order = "order by " . $order : "";
     !empty($having) ? $having = "having " . $having : "";
-    $sql = "select $alias from $tblname $join where $where $group $having $order";
+    $sql = "select {$alias} from {$tblname} {$join} {$where} {$group} {$having} {$order}";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
     $rtn = $stmt->fetchAll();
     return $rtn;
 }
 
-function GetCount(string $tblname, string $where = "", string $join = "")
+function GetCount($tblname, $where = "", $join = "")
 {
     $rtn = 0;
     !empty($where) ? $where = "where " . $where : "";
@@ -73,7 +73,7 @@ function GetCount(string $tblname, string $where = "", string $join = "")
     return $rtn;
 }
 
-function DbInsert(string $tblname, array $arr)
+function DbInsert($tblname, $arr)
 {
     $pdo = GetConnect();
     $insertKey = "";
@@ -97,7 +97,7 @@ function DbInsert(string $tblname, array $arr)
     $stmt->execute();
 }
 
-function DbUpdate(string $tblname, array $arr, string $where = "")
+function DbUpdate($tblname, $arr, $where = "")
 {
     $pdo = GetConnect();
     $setColumn = "";
@@ -118,7 +118,7 @@ function DbUpdate(string $tblname, array $arr, string $where = "")
     $stmt->execute();
 }
 
-function DbDelete(string $tblname, string $where = "")
+function DbDelete($tblname,  $where = "")
 {
     $pdo = GetConnect();
     !empty($where) ? $where = "where " . $where : "";
