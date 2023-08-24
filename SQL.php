@@ -97,7 +97,7 @@ function DbInsert(string $tblname, array $arr)
     $stmt->execute();
 }
 
-function DbUpdate(string $tblname, array $arr, string $expression = "1")
+function DbUpdate(string $tblname, array $arr, string $where = "")
 {
     $pdo = GetConnect();
     $setColumn = "";
@@ -112,16 +112,17 @@ function DbUpdate(string $tblname, array $arr, string $expression = "1")
 
         $setColumn .= " {$key} = '{$value}',";
     }
-
-    $sql = "update $tblname set $setColumn where $expression";
+    !empty($where) ? $where = "where " . $where : "";
+    $sql = "update $tblname set $setColumn $where";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
 }
 
-function DbDelete(string $tblname, string $expression = "1")
+function DbDelete(string $tblname, string $where = "")
 {
     $pdo = GetConnect();
-    $sql = "delete from $tblname where $expression";
+    !empty($where) ? $where = "where " . $where : "";
+    $sql = "delete from $tblname $where";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
 }
