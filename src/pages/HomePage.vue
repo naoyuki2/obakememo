@@ -54,7 +54,6 @@ export default {
         async getObakeList() {
             const todayDateTime = this.today + " 00:00:00"
             const designationDateTime = document.getElementById('date').value
-            console.log(designationDateTime)
             let expression = ""
             if (designationDateTime) {
                 expression = `dead_line = '${designationDateTime}'`

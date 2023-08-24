@@ -42,7 +42,7 @@ export default {
       const func = "DbDelete"
       const args = {
         tbl: "task",
-        expression: `task_id = ${this.taskId}`
+        where: `task_id = ${this.taskId}`
       }
       await EditDatabaseData(func, args)
       this.isVisible = true

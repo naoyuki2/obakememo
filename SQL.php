@@ -28,33 +28,44 @@ function GetConnect()
     return new PDO($dsn, $user, $password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 }
 
-function GetData(string $tblname, string $expression, string $join)
+function GetData(string $tblname, string $where = "", string $join = "", $alias = "", $group = "", $order = "", $having = "")
 {
-    $rtn = '';
+    $rtn = "";
     $pdo = GetConnect();
-    $sql = "select task.*,obake.obake_path from $tblname {$join} where $expression";
+    empty($alias) ? $alias = "*" : "";
+    !empty($where) ? $where = "where " . $where : "";
+    !empty($group) ? $group = "group by " . $group : "";
+    !empty($order) ? $order = "order by " . $order : "";
+    !empty($having) ? $having = "having " . $having : "";
+    $sql = "select $alias from $tblname $join where $where $group $having $order";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
     $rtn = $stmt->fetch();
     return $rtn;
 }
 
-function GetListAll(string $tblname, string $expression, string $join)
+function GetListAll(string $tblname, string $where = "", string $join = "", $alias = "", $group = "", $order = "", $having = "")
 {
-    $rtn = '';
+    $rtn = "";
     $pdo = GetConnect();
-    $sql = "select * from {$tblname} {$join} where $expression";
+    empty($alias) ? $alias = "*" : "";
+    !empty($where) ? $where = "where " . $where : "";
+    !empty($group) ? $group = "group by " . $group : "";
+    !empty($order) ? $order = "order by " . $order : "";
+    !empty($having) ? $having = "having " . $having : "";
+    $sql = "select $alias from $tblname $join where $where $group $having $order";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
     $rtn = $stmt->fetchAll();
     return $rtn;
 }
 
-function GetCount(string $tblname, string $expression = "1", string $join = "")
+function GetCount(string $tblname, string $where = "", string $join = "")
 {
     $rtn = 0;
+    !empty($where) ? $where = "where " . $where : "";
     $pdo = GetConnect();
-    $sql = "select count(*) from {$tblname} {$join} where {$expression}";
+    $sql = "select count(*) from {$tblname} {$join} {$where}";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
     $rtnAlias = $stmt->fetch();
@@ -86,7 +97,7 @@ function DbInsert(string $tblname, array $arr)
     $stmt->execute();
 }
 
-function DbUpdate(string $tblname, array $arr, string $expression)
+function DbUpdate(string $tblname, array $arr, string $expression = "1")
 {
     $pdo = GetConnect();
     $setColumn = "";
@@ -102,7 +113,7 @@ function DbUpdate(string $tblname, array $arr, string $expression)
         $setColumn .= " {$key} = '{$value}',";
     }
 
-    $sql = "update {$tblname} set {$setColumn} where {$expression}";
+    $sql = "update $tblname set $setColumn where $expression";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
 }
@@ -110,7 +121,7 @@ function DbUpdate(string $tblname, array $arr, string $expression)
 function DbDelete(string $tblname, string $expression = "1")
 {
     $pdo = GetConnect();
-    $sql = "delete from {$tblname} where {$expression}";
+    $sql = "delete from $tblname where $expression";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
 }
