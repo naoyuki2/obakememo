@@ -4,17 +4,19 @@ import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
-//const { spawn } = require('child_process');
+const { exec } = require('child_process');
 
-//const xamppPath = 'C:\\xampp'; // XAMPPのインストールディレクトリを指定
-//const apacheCmd = 'apache_start.bat'; // Apacheを起動するバッチファイル名
-//const mysqlCmd = 'mysql_start.bat'; // MySQLを起動するバッチファイル名
+const xamppStartPath = 'C:\\xampp\\xampp_start.exe';
+const xamppStopPath = 'C:\\xampp\\xampp_stop.exe';
 
-// Apacheを起動
-//const apacheProcess = spawn('cmd.exe', ['/c', apacheCmd], { cwd: xamppPath });
+exec(xamppStartPath, (error, stdout, stderr) => {
+  if (error) {
+    console.error(`Error launching .exe file: ${error}`);
+  } else {
+    console.log(`.exe file launched: ${stdout}`);
+  }
+});
 
-// MySQLを起動
-//const mysqlProcess = spawn('cmd.exe', ['/c', mysqlCmd], { cwd: xamppPath });
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -48,11 +50,14 @@ async function createWindow() {
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  //apacheProcess.kill();
-  //mysqlProcess.kill();
   if (process.platform !== 'darwin') {
+    exec(xamppStopPath, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error launching .exe file: ${error}`);
+      } else {
+        console.log(`.exe file launched: ${stdout}`);
+      }
+    });
     app.quit()
   }
 })

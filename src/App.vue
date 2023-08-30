@@ -10,7 +10,7 @@ export default {
 
 <template>
   <commonHeader></commonHeader>
-  <Transition mode=”out-in”>
+  <Transition>
     <router-view></router-view>
   </Transition>
 </template>
