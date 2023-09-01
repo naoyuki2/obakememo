@@ -12,6 +12,12 @@ export default {
   props: {
     imagePath: String,
     text: String,
+    limit: String,
+  },
+  computed: {
+    combinedText() {
+      return this.text + this.limit;
+    }
   },
   data() {
     return {
@@ -36,7 +42,7 @@ export default {
   methods: {
     splitText() {
       const textElement = this.$refs.textElement;
-      const characters = this.text.split("");
+      const characters = this.combinedText.split("");
       textElement.innerHTML = characters.map(char => `<span>${char}</span>`).join("");
     },
     calculateMaxValues() {

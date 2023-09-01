@@ -54,6 +54,7 @@ export default {
         async getObakeList() {
             const todayDateTime = this.today + " 00:00:00"
             const designationDateTime = document.getElementById('date').value
+            console.log(designationDateTime)
             let expression = ""
             if (designationDateTime) {
                 expression = `dead_line = '${designationDateTime}'`
@@ -72,7 +73,22 @@ export default {
         },
         calendarClear() {
             document.getElementById('date').value = ""
-        }
+        },
+        calculateRemainingDays(deadline) {
+            const oneDayMilliseconds = 24 * 60 * 60 * 1000; // 1日のミリ秒数
+            const deadlineDate = new Date(deadline);
+            const currentDate = new Date();
+            const differenceMilliseconds = deadlineDate - currentDate;
+            const remainingDays = Math.ceil(differenceMilliseconds / oneDayMilliseconds);
+
+            if (remainingDays === 0) {
+                return `（0日）`;
+            } else if (remainingDays > 0) {
+                return `（あと ${remainingDays} 日）`;
+            } else {
+                return `（${-remainingDays} 日遅れています）`;
+            }
+        },
     }
 };
 </script>
@@ -83,7 +99,9 @@ export default {
         <button @click="getObakeList">のタスクを表示</button>
         <button @click="calendarClear">日付クリア</button>
         <div v-for="task in tasks" :key="task">
-            <ImageDisplay :imagePath="parentImagePath(task['obake_path'])" :text="task['task_name']"
+            <ImageDisplay :imagePath="parentImagePath(task['obake_path'])"
+                :text="task['task_name']"
+                :limit="calculateRemainingDays(task['dead_line'])"
                 @click="ObakePage(task)" />
         </div>
     </div>
