@@ -1,30 +1,64 @@
+<template>
+  <div class="image-container">
+    <div class="text-container">
+      <div class="overlay-text" ref="textElement" :style="imageStyle"></div>
+    </div>
+    <img class="img" :src="imagePath" alt="Image" :style="imageStyle">
+  </div>
+</template>
+  
 <script>
 export default {
   props: {
     imagePath: String,
     text: String,
   },
+  data() {
+    return {
+      imageStyle: {
+        position: 'absolute',
+        top: '0',
+        left: '0',
+      },
+      maxX: 0,
+      maxY: 0,
+    };
+  },
   mounted() {
     this.splitText();
+    this.calculateMaxValues();
+    this.startMoving();
+  },
+  beforeUpdate() {
+    this.calculateMaxValues(); 
+    this.moveImage();
   },
   methods: {
     splitText() {
       const textElement = this.$refs.textElement;
       const characters = this.text.split("");
       textElement.innerHTML = characters.map(char => `<span>${char}</span>`).join("");
-    }
-  }
+    },
+    calculateMaxValues() {
+      const imageWidth = 100; 
+      const imageHeight = 100; 
+      this.maxX = (window.innerWidth - imageWidth)/2;
+      this.maxY = (window.innerHeight - imageHeight)/2;
+    },
+    startMoving() {
+      this.moveImage(); 
+      setInterval(this.moveImage, 1000); 
+    },
+    moveImage() {
+      const randomX = Math.floor(Math.random() * (this.maxX * 2)) - this.maxX;
+      const randomY = Math.floor(Math.random() * this.maxY);
+
+      this.imageStyle.top = `${randomY}px`;
+      this.imageStyle.left = `${randomX}px`;
+    },
+  },
 };
 </script>
-
-<template>
-  <div class="image-container">
-    <div class="text-container">
-      <div class="overlay-text" ref="textElement"></div>
-    </div>
-    <img class="img" :src="imagePath" alt="Image">
-  </div>
-</template>
   
 <style>
 .img {
@@ -62,4 +96,3 @@ export default {
   opacity: 1;
   /* カーソルを合わせたときに表示 */
 }</style>
-  
