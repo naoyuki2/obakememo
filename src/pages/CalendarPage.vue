@@ -1,5 +1,5 @@
 <script>
-import { GetDatabaseData } from '../../database.js'
+import { GetDatabaseData } from "../../database.js";
 
 export default {
   data() {
@@ -16,75 +16,94 @@ export default {
   },
   created() {
     const date = new Date();
-    [this.currentYear, this.currentMonth, this.currentDate] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
-    this.today = this.selectedDay = `${this.currentYear}-${('0' + this.currentMonth).slice(-2)}-${this.currentDate}`;
+    [this.currentYear, this.currentMonth, this.currentDate] = [
+      date.getFullYear(),
+      date.getMonth() + 1,
+      date.getDate(),
+    ];
+    this.today = this.selectedDay = `${this.currentYear}-${(
+      "0" + this.currentMonth
+    ).slice(-2)}-${this.currentDate}`;
   },
   mounted() {
-    this.getDayTaskCount()
+    this.getDayTaskCount();
   },
   methods: {
     async getDayTaskCount() {
       const func = "GetListAll";
       const args = {
-        tbl: 'task',
-        where: '',
-        join: '',
-        alias: 'dead_line, count(*) as day_task_cnt',
-        group: 'dead_line',
-        order: 'dead_line'
-      }
+        tbl: "task",
+        where: "",
+        join: "",
+        alias: "dead_line, count(*) as day_task_cnt",
+        group: "dead_line",
+        order: "dead_line",
+      };
 
-      const taskData = await GetDatabaseData(func, args)
-      let nextIndex = 0
-      let dateString = taskData[nextIndex]['dead_line']
-      let taskCnt = taskData[nextIndex]['day_task_cnt']
-      let dateObject = new Date(dateString)
-      let taskYear = dateObject.getFullYear()
-      let taskMonth = dateObject.getMonth() + 1
-      let taskDay = dateObject.getDate()
-      this.dayTaskCnt = []
-      this.dayTaskCnt.push({ day: 'noData' })
+      const taskData = await GetDatabaseData(func, args);
+      let nextIndex = 0;
+      let numberOfTaks = taskData.length;
+      let dateString = taskData[nextIndex]["dead_line"];
+      let taskCnt = taskData[nextIndex]["day_task_cnt"];
+      let dateObject = new Date(dateString);
+      let taskYear = dateObject.getFullYear();
+      let taskMonth = dateObject.getMonth() + 1;
+      let taskDay = dateObject.getDate();
+      this.dayTaskCnt = [];
+      this.dayTaskCnt.push({ day: "noData" });
       for (let day = 1; day <= 31; day++) {
-        if (taskYear == this.currentYear && taskMonth == this.currentMonth && taskDay == day) {
-          this.dayTaskCnt.push(taskCnt)
-          nextIndex++
-          dateString = taskData[nextIndex]['dead_line']
-          taskCnt = taskData[nextIndex]['day_task_cnt']
-          dateObject = new Date(dateString)
-          taskYear = dateObject.getFullYear()
-          taskMonth = dateObject.getMonth() + 1
-          taskDay = dateObject.getDate()
+        if (
+          taskYear == this.currentYear &&
+          taskMonth == this.currentMonth &&
+          taskDay == day
+        ) {
+          this.dayTaskCnt.push(taskCnt);
+          nextIndex++;
+          if (nextIndex < numberOfTaks) {
+            dateString = taskData[nextIndex]["dead_line"];
+            taskCnt = taskData[nextIndex]["day_task_cnt"];
+            dateObject = new Date(dateString);
+            taskYear = dateObject.getFullYear();
+            taskMonth = dateObject.getMonth() + 1;
+            taskDay = dateObject.getDate();
+          }
         } else {
-          this.dayTaskCnt.push(0)
+          this.dayTaskCnt.push(0);
         }
       }
+      console.log(this.dayTaskCnt);
     },
     checkSelectedDay(day) {
       return {
-        'selectedDay': `${this.currentYear}-${('0' + this.currentMonth).slice(-2)}-${('0' + day).slice(-2)}` == this.selectedDay
-      }
+        selectedDay:
+          `${this.currentYear}-${("0" + this.currentMonth).slice(-2)}-${(
+            "0" + day
+          ).slice(-2)}` == this.selectedDay,
+      };
     },
     async movePrevMonth() {
       this.currentMonth = this.currentMonth != 1 ? this.currentMonth - 1 : 12;
-      this.currentYear = this.currentMonth != 12 ? this.currentYear : this.currentYear - 1;
+      this.currentYear =
+        this.currentMonth != 12 ? this.currentYear : this.currentYear - 1;
       await this.getDayTaskCount();
     },
     async moveNextMonth() {
       this.currentMonth = this.currentMonth != 12 ? this.currentMonth + 1 : 1;
-      this.currentYear = this.currentMonth != 1 ? this.currentYear : this.currentYear + 1;
+      this.currentYear =
+        this.currentMonth != 1 ? this.currentYear : this.currentYear + 1;
       await this.getDayTaskCount();
     },
     TaskPage(day, month, year) {
       if (day != " ") {
         this.$router.push({
-          name: 'TaskPage',
+          name: "TaskPage",
           query: {
             id: this.userId,
             text: this.userText,
             day: day,
             month: month,
-            year: year
-          }
+            year: year,
+          },
         });
       }
     },
@@ -98,13 +117,24 @@ export default {
   },
   computed: {
     calendarMake() {
-      const firstday = new Date(this.currentYear, this.currentMonth - 1, 1).getDay();
-      const lastdate = new Date(this.currentYear, this.currentMonth, 0).getDate();
+      const firstday = new Date(
+        this.currentYear,
+        this.currentMonth - 1,
+        1
+      ).getDay();
+      const lastdate = new Date(
+        this.currentYear,
+        this.currentMonth,
+        0
+      ).getDate();
       const necessarySpace = firstday;
       const spaces = Array(necessarySpace).fill(" ");
       const dates = Array.from({ length: lastdate }, (_, i) => i + 1);
-      const list = [spaces, dates]
-      const week = list.reduce((pre, current) => { pre.push(...current); return pre }, []);
+      const list = [spaces, dates];
+      const week = list.reduce((pre, current) => {
+        pre.push(...current);
+        return pre;
+      }, []);
       return week;
     },
     calendarRows() {
@@ -116,7 +146,7 @@ export default {
       }
       return rows;
     },
-  }
+  },
 };
 </script>
 
@@ -143,10 +173,19 @@ export default {
           <th class="saturday">土</th>
         </tr>
         <tr v-for="(week, weekIndex) in calendarRows" :key="weekIndex">
-          <td v-for="(day, dayIndex) in week" :key="dayIndex" class="day" :class="{ 'today': isToday(day) }"
-            @click="TaskPage(day, currentMonth, currentYear)">
+          <td
+            v-for="(day, dayIndex) in week"
+            :key="dayIndex"
+            class="day"
+            :class="{ today: isToday(day) }"
+            @click="TaskPage(day, currentMonth, currentYear)"
+          >
             {{ day }}
-            {{ dayTaskCnt[day] != 0 && dayTaskCnt[day] != undefined ? "(" + dayTaskCnt[day] + ")" : '' }}
+            {{
+              dayTaskCnt[day] != undefined && dayTaskCnt[day] != 0
+                ? "(" + dayTaskCnt[day] + ")"
+                : ""
+            }}
           </td>
         </tr>
       </table>
@@ -204,11 +243,10 @@ th {
   height: 100vh;
 }
 
-
 .day {
   overflow: hidden;
   position: relative;
-  transition-duration: .4s;
+  transition-duration: 0.4s;
   z-index: 2;
 }
 
@@ -226,15 +264,15 @@ th {
   padding-top: 100%;
   z-index: -1;
   transform: translateY(-50%) scale(0.1);
-  transition: opacity .5s, transform 0s;
-  transition-delay: 0s, .4s;
+  transition: opacity 0.5s, transform 0s;
+  transition-delay: 0s, 0.4s;
 }
 
 .day:hover::after {
   opacity: 1;
   transform: translateY(-50%) scale(1.1);
   transition-delay: 0s;
-  transition: opacity .8s, transform .6s ease-in-out;
+  transition: opacity 0.8s, transform 0.6s ease-in-out;
 }
 
 .today {
