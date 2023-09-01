@@ -30,10 +30,11 @@ export default {
   },
   methods: {
     async getDayTaskCount() {
+      const monthFirstDay = `"${this.currentYear}-${this.currentMonth}-1 00:00:00"`;
       const func = "GetListAll";
       const args = {
         tbl: "task",
-        where: "",
+        where: "dead_line >= " + monthFirstDay,
         join: "",
         alias: "dead_line, count(*) as day_task_cnt",
         group: "dead_line",
@@ -173,18 +174,13 @@ export default {
           <th class="saturday">土</th>
         </tr>
         <tr v-for="(week, weekIndex) in calendarRows" :key="weekIndex">
-          <td
-            v-for="(day, dayIndex) in week"
-            :key="dayIndex"
-            class="day"
-            :class="{ today: isToday(day) }"
-            @click="TaskPage(day, currentMonth, currentYear)"
-          >
+          <td v-for="(day, dayIndex) in week" :key="dayIndex" class="day" :class="{ today: isToday(day) }"
+            @click="TaskPage(day, currentMonth, currentYear)">
             {{ day }}
             {{
               dayTaskCnt[day] != undefined && dayTaskCnt[day] != 0
-                ? "(" + dayTaskCnt[day] + ")"
-                : ""
+              ? "(" + dayTaskCnt[day] + ")"
+              : ""
             }}
           </td>
         </tr>
