@@ -82,7 +82,7 @@ export default {
             const remainingDays = Math.ceil(differenceMilliseconds / oneDayMilliseconds);
 
             if (remainingDays === 0) {
-                return `（0日）`;
+                return `（本日）`;
             } else if (remainingDays > 0) {
                 return `（あと ${remainingDays} 日）`;
             } else {
