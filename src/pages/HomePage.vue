@@ -52,7 +52,7 @@ export default {
             });
         },
         async getObakeList() {
-            const todayDateTime = this.today + " 00:00:00"
+            const todayDateTime = this.today
             const designationDateTime = document.getElementById('date').value
             console.log(designationDateTime)
             let expression = ""

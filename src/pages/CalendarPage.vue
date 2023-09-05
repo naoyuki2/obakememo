@@ -99,8 +99,6 @@ export default {
         this.$router.push({
           name: "TaskPage",
           query: {
-            id: this.userId,
-            text: this.userText,
             day: day,
             month: month,
             year: year,
