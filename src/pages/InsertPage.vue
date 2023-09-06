@@ -1,9 +1,9 @@
 <template>
-  <h1 class="date">{{ this.$route.query.month }}月{{ this.$route.query.day }}日({{ this.$route.query.week }})の課題</h1>
+  <h1 class="date" :class="weekend(this.$route.query.week)">{{ this.$route.query.month }}月{{ this.$route.query.day }}日({{ this.$route.query.week }})の課題</h1>
   <div class="">
-    <input class="IUgrave" type="text" id="task_name" placeholder="タスク名を入力"><br>
-        <input class="IUgrave" type="text" id="task_description" placeholder="タスクの説明を入力"><br>
-        <select class="IUgrave" id="priority_id">
+    <input class="IUgrave" type="text" id="task_name" placeholder="タスク名を入力" :class="weekend(this.$route.query.week)"><br>
+        <input class="IUgrave" type="text" id="task_description" placeholder="タスクの説明を入力" :class="weekend(this.$route.query.week)"><br>
+        <select class="IUgrave" id="priority_id" :class="weekend(this.$route.query.week)">
           <option>重要度を選択</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -12,7 +12,7 @@
         <br>        
   </div>
       <br>
-      <h1 class="plus" @click="msgAdd()">この内容で課題を追加する</h1>
+      <h1 class="plus" @click="msgAdd()" :class="weekend(this.$route.query.week)">この内容で課題を追加する</h1>
 </template>
 
 <script>
@@ -84,6 +84,15 @@ export default {
           }
       })
     },
+    weekend(dayOfWeek) {
+        if(dayOfWeek === "土"){
+          return 'saturday';
+        }else if(dayOfWeek === "日"){
+          return 'sunday';
+        }else{
+          return '';
+        }
+    }
   },
 }
 </script>
