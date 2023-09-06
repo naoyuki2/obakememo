@@ -37,7 +37,6 @@ export default {
   },
   beforeUpdate() {
     this.calculateMaxValues(); 
-    this.moveImage();
   },
   methods: {
     splitText() {
@@ -52,15 +51,41 @@ export default {
       this.maxY = (window.innerHeight - imageHeight)/2;
     },
     startMoving() {
-      this.moveImage(); 
-      setInterval(this.moveImage, 1000); 
+      this.moveImage();
     },
     moveImage() {
       const randomX = Math.floor(Math.random() * (this.maxX * 2)) - this.maxX;
       const randomY = Math.floor(Math.random() * this.maxY);
+      
+      this.animateMovement(randomX, randomY);
+    },
+    animateMovement(targetX, targetY) {
+      const duration = 5000; // アニメーションの時間（ミリ秒）
+      const startX = parseInt(this.imageStyle.left);
+      const startY = parseInt(this.imageStyle.top);
+      const startTime = performance.now();
 
-      this.imageStyle.top = `${randomY}px`;
-      this.imageStyle.left = `${randomX}px`;
+      const animate = (timestamp) => {
+        const progress = (timestamp - startTime) / duration;
+
+        if (progress < 1) {
+          const currentX = startX + (targetX - startX) * progress;
+          const currentY = startY + (targetY - startY) * progress;
+
+          this.imageStyle.top = `${currentY}px`;
+          this.imageStyle.left = `${currentX}px`;
+          requestAnimationFrame(animate);
+        } else {
+          // アニメーション終了時の座標を設定
+          this.imageStyle.top = `${targetY}px`;
+          this.imageStyle.left = `${targetX}px`;
+
+          // 次のランダム座標に移動
+          this.moveImage();
+        }
+      };
+
+      requestAnimationFrame(animate);
     },
   },
 };
