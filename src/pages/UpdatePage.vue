@@ -5,15 +5,14 @@
   <div v-for="item in dataList" :key="item.id">
     <input class="IUgrave" type="text" id="task_name" placeholder="タスク名を入力" :value="item.task_name" :class="weekend(this.$route.query.week)"><br>
         <input class="IUgrave" type="text" id="task_description" placeholder="タスクの説明を入力" :value="item.task_description" :class="weekend(this.$route.query.week)"><br>
-        <select class="IUgrave" id="priority_id" v-model="selectedPriority" :class="weekend(this.$route.query.week)">
+        <!--<select class="IUgrave" id="priority_id" v-model="selectedPriority" :class="weekend(this.$route.query.week)">
           <option>重要度を選択</option>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
-        </select>
-        <br>        
+        </select>-->
   </div>
-      <br><h1 class="plus" @click="Update()" :class="weekend(this.$route.query.week)">この内容で課題を変更する</h1>
+      <h1 class="plus" @click="Update()" :class="weekend(this.$route.query.week)">この内容で課題を変更する</h1>
 </template>
 
 <script>
@@ -56,7 +55,7 @@ export default{
       try{
         const tn = document.getElementById("task_name").value;
         const td = document.getElementById("task_description").value;
-        const pi = document.getElementById("priority_id").value;
+        //const pi = document.getElementById("priority_id").value;
         const id = this.$route.query.task_id;
         const func = 'DbUpdate'
         const args = {
@@ -64,7 +63,7 @@ export default{
           records: {
             task_name: tn,
             task_description: td,
-            priority_id: pi,
+            //priority_id: pi,
           },
           where: `task_id = ${id}`,
         }

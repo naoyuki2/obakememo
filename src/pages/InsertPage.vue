@@ -3,15 +3,13 @@
   <div class="">
     <input class="IUgrave" type="text" id="task_name" placeholder="タスク名を入力" :class="weekend(this.$route.query.week)"><br>
         <input class="IUgrave" type="text" id="task_description" placeholder="タスクの説明を入力" :class="weekend(this.$route.query.week)"><br>
-        <select class="IUgrave" id="priority_id" :class="weekend(this.$route.query.week)">
+        <!--<select class="IUgrave" id="priority_id" :class="weekend(this.$route.query.week)">
           <option>重要度を選択</option>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
-        </select>
-        <br>        
+        </select>-->
   </div>
-      <br>
       <h1 class="plus" @click="msgAdd()" :class="weekend(this.$route.query.week)">この内容で課題を追加する</h1>
 </template>
 
@@ -33,7 +31,7 @@ export default {
       try {
         const tn = document.getElementById("task_name").value;
         const td = document.getElementById("task_description").value;
-        const pi = document.getElementById("priority_id").value;
+        //const pi = document.getElementById("priority_id").value;
         const year = this.$route.query.year;
         const month = this.$route.query.month;
         const day = this.$route.query.day;
@@ -48,7 +46,7 @@ export default {
             task_name: tn,
             task_description: td,
             obake_id: oi,
-            priority_id: pi,
+            //priority_id: pi,
             dead_line: dl,
           }
         }
