@@ -1,9 +1,9 @@
 <template>
   <div class="image-container">
+    <img class="img" :src="imagePath" alt="Image" :style="imageStyle">
     <div class="text-container">
       <div class="overlay-text" ref="textElement" :style="imageStyle"></div>
     </div>
-    <img class="img" :src="imagePath" alt="Image" :style="imageStyle">
   </div>
 </template>
   
