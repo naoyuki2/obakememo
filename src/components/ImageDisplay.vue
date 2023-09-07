@@ -36,7 +36,7 @@ export default {
     this.startMoving();
   },
   beforeUpdate() {
-    this.calculateMaxValues(); 
+    this.calculateMaxValues();
   },
   methods: {
     splitText() {
@@ -45,10 +45,10 @@ export default {
       textElement.innerHTML = characters.map(char => `<span>${char}</span>`).join("");
     },
     calculateMaxValues() {
-      const imageWidth = 100; 
-      const imageHeight = 100; 
-      this.maxX = (window.innerWidth - imageWidth)/2;
-      this.maxY = (window.innerHeight - imageHeight)/2;
+      const imageWidth = 100;
+      const imageHeight = 100;
+      this.maxX = (window.innerWidth - imageWidth) / 2;
+      this.maxY = (window.innerHeight - imageHeight) / 2;
     },
     startMoving() {
       this.moveImage();
@@ -56,7 +56,7 @@ export default {
     moveImage() {
       const randomX = Math.floor(Math.random() * (this.maxX * 2)) - this.maxX;
       const randomY = Math.floor(Math.random() * this.maxY);
-      
+
       this.animateMovement(randomX, randomY);
     },
     animateMovement(targetX, targetY) {
@@ -126,4 +126,5 @@ export default {
 .image-container:hover .overlay-text {
   opacity: 1;
   /* カーソルを合わせたときに表示 */
-}</style>
+}
+</style>

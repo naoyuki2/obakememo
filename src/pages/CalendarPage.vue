@@ -42,37 +42,44 @@ export default {
       };
 
       const taskData = await GetDatabaseData(func, args);
-      let nextIndex = 0;
-      let numberOfTaks = taskData.length;
-      let dateString = taskData[nextIndex]["dead_line"];
-      let taskCnt = taskData[nextIndex]["day_task_cnt"];
-      let dateObject = new Date(dateString);
-      let taskYear = dateObject.getFullYear();
-      let taskMonth = dateObject.getMonth() + 1;
-      let taskDay = dateObject.getDate();
-      this.dayTaskCnt = [];
-      this.dayTaskCnt.push({ day: "noData" });
-      for (let day = 1; day <= 31; day++) {
-        if (
-          taskYear == this.currentYear &&
-          taskMonth == this.currentMonth &&
-          taskDay == day
-        ) {
-          this.dayTaskCnt.push(taskCnt);
-          nextIndex++;
-          if (nextIndex < numberOfTaks) {
-            dateString = taskData[nextIndex]["dead_line"];
-            taskCnt = taskData[nextIndex]["day_task_cnt"];
-            dateObject = new Date(dateString);
-            taskYear = dateObject.getFullYear();
-            taskMonth = dateObject.getMonth() + 1;
-            taskDay = dateObject.getDate();
+      if(taskData.length !== 0) {
+        let nextIndex = 0;
+        let numberOfTaks = taskData.length;
+        let dateString = taskData[nextIndex]["dead_line"];
+        let taskCnt = taskData[nextIndex]["day_task_cnt"];
+        let dateObject = new Date(dateString);
+        let taskYear = dateObject.getFullYear();
+        let taskMonth = dateObject.getMonth() + 1;
+        let taskDay = dateObject.getDate();
+        this.dayTaskCnt = [];
+        this.dayTaskCnt.push({ day: "noData" });
+        for (let day = 1; day <= 31; day++) {
+          if (
+            taskYear == this.currentYear &&
+            taskMonth == this.currentMonth &&
+            taskDay == day
+          ) {
+            this.dayTaskCnt.push(taskCnt);
+            nextIndex++;
+            if (nextIndex < numberOfTaks) {
+              dateString = taskData[nextIndex]["dead_line"];
+              taskCnt = taskData[nextIndex]["day_task_cnt"];
+              dateObject = new Date(dateString);
+              taskYear = dateObject.getFullYear();
+              taskMonth = dateObject.getMonth() + 1;
+              taskDay = dateObject.getDate();
+            }
+          } else {
+            this.dayTaskCnt.push(0);
           }
-        } else {
+        }
+      } else {
+        this.dayTaskCnt = [];
+        for (let day = 1; day <= 31; day++) {
           this.dayTaskCnt.push(0);
         }
       }
-      console.log(this.dayTaskCnt);
+      console.log(this.dayTaskCnt)
     },
     checkSelectedDay(day) {
       return {

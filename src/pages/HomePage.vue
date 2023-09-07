@@ -52,14 +52,11 @@ export default {
             });
         },
         async getObakeList() {
-            const todayDateTime = this.today
             const designationDateTime = document.getElementById('date').value
             console.log(designationDateTime)
             let expression = ""
             if (designationDateTime) {
                 expression = `dead_line = '${designationDateTime}'`
-            } else {
-                expression = `dead_line >= '${todayDateTime}'`
             }
             const func = 'GetListAll'
             const args = {
