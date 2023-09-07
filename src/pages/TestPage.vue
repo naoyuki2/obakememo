@@ -1,5 +1,5 @@
 <template>
-      <button><router-link to="/">戻る</router-link></button>
+      <!--<button><router-link to="/">戻る</router-link></button>-->
   <div class="image-container">
     <div class="text-container">
       <div class="overlay-text" ref="textElement"></div>

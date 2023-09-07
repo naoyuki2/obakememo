@@ -71,7 +71,7 @@
 </script>
 
 <template>
-  <button><router-link to="/CalendarPage">戻る</router-link></button>
+  <!--<button><router-link to="/CalendarPage">戻る</router-link></button>-->
   <h1 class="date" :class="weekend(dayOfWeek)">{{ this.$route.query.month }}月{{ this.$route.query.day }}日({{ dayOfWeek }})の課題</h1>
       <div v-for="item in dataList" :key="item.id">
         <h1 class="task" :class="weekend(dayOfWeek)" @click="UpdatePage(this.$route.query.year,this.$route.query.month,this.$route.query.day,dayOfWeek,item['task_id'])">{{ item['task_name'] }} </h1>

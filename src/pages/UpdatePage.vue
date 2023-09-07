@@ -1,5 +1,5 @@
 <template>
-  <button @click="back(this.$route.query.year,this.$route.query.month,this.$route.query.day)">戻る</button>
+  <!--<button @click="back(this.$route.query.year,this.$route.query.month,this.$route.query.day)">戻る</button>-->
   Update
   <h1 class="date" :class="weekend(this.$route.query.week)">{{ this.$route.query.month }}月{{ this.$route.query.day }}日({{ this.$route.query.week }})の課題</h1>
   <div v-for="item in dataList" :key="item.id">

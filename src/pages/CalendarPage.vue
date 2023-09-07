@@ -159,7 +159,7 @@ export default {
 <template>
   <div id="app">
     <span class="btn-modal-close" @click="close($event)"></span>
-    <button><router-link to="/">戻る</router-link></button>
+    <!--<button><router-link to="/">戻る</router-link></button>-->
     <div>
       <h1 class="calendar-title">
         <span @click="movePrevMonth">[前の月]</span>
