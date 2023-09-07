@@ -22,7 +22,8 @@ export default{
     return {
       dataList: [], 
       selectedPriority: null,
-      obakes: []
+      obakes: [],
+      SelectedObake: ''
     }
   },
   mounted() {
