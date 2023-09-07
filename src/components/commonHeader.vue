@@ -31,7 +31,7 @@
                             <li class="Ghost">
                                 <div class="nav-link text-white">
                                     <img src="@/assets/img/Ghost.png" class="bi d-block mx-auto mb-1" width="45" height="30">
-                                    <router-link to="GhostPage">幽霊</router-link>
+                                    <router-link to="GhostPage">通知欄</router-link>
                                 </div>
                             </li>
                         </ul>
