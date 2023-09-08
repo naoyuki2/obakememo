@@ -61,6 +61,7 @@ export default {
       const func = 'GetListAll'
       const args = {
         tbl: "obake",
+        where: "lock_id = 0"
       }
       const data = await GetDatabaseData(func, args)
       this.obakes = data
