@@ -24,7 +24,7 @@ export default {
                 },
                 */
             ],
-
+            selectButtonValid: ""
         };
     },
     created() {
@@ -51,12 +51,16 @@ export default {
                 },
             });
         },
-        async getObakeList() {
-            const designationDateTime = document.getElementById('date').value
-            console.log(designationDateTime)
+        async getObakeList(maxRange = -1, selectButton = "") {
             let expression = ""
-            if (designationDateTime) {
-                expression = `dead_line = '${designationDateTime}'`
+            this.selectButtonValid = selectButton
+            if (maxRange >= 0) {
+                const currentDate = new Date()
+                const maxRangeDate = new Date()
+                maxRangeDate.setDate(maxRangeDate.getDate() + maxRange)
+                const formattedCurrentDate = this.formatDate(currentDate)
+                const formattedMaxRangeDate = this.formatDate(maxRangeDate)
+                expression = `dead_line >= '${formattedCurrentDate}' and dead_line <= '${formattedMaxRangeDate}'` 
             }
             const func = 'GetListAll'
             const args = {
@@ -64,12 +68,8 @@ export default {
                 where: expression,
                 join: "inner join obake on task.obake_id = obake.obake_id"
             }
-
             const data = await GetDatabaseData(func, args)
             this.tasks = data
-        },
-        calendarClear() {
-            document.getElementById('date').value = ""
         },
         calculateRemainingDays(deadline) {
             const oneDayMilliseconds = 24 * 60 * 60 * 1000; // 1日のミリ秒数
@@ -86,22 +86,62 @@ export default {
                 return `（${-remainingDays} 日遅れています）`;
             }
         },
+        formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // 月は0から始まるため+1する
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day} 00:00:00`;
+        }
     }
 };
 </script>
 
 <template>
     <div class="main">
-        <input type="date" id="date" :value="today">
-        <button @click="getObakeList">のタスクを表示</button>
-        <button @click="calendarClear">日付クリア</button>
+        <div class="flex-container">
+            <div class="show-range-button" @click="getObakeList(-1, 'all_button')" v-bind:class="{ 'select-valid-button': selectButtonValid === 'all_button'}">
+                全表示
+            </div>
+            <div class="show-range-button" @click="getObakeList(0, 'today_button')" v-bind:class="{ 'select-valid-button': selectButtonValid === 'today_button'}">
+                本日
+            </div>
+            <div class="show-range-button" @click="getObakeList(7, 'week_button')" v-bind:class="{ 'select-valid-button': selectButtonValid === 'week_button'}">
+                1週間
+            </div>
+            <div class="show-range-button" @click="getObakeList(31, 'month_button')" v-bind:class="{ 'select-valid-button': selectButtonValid === 'month_button'}">
+                1ヵ月
+            </div>
+        </div>
         <div v-for="task in tasks" :key="task">
-            <ImageDisplay :imagePath="parentImagePath(task['obake_path'])"
-                :text="task['task_name']"
-                :limit="calculateRemainingDays(task['dead_line'])"
-                @click="ObakePage(task)" />
+            <ImageDisplay :imagePath="parentImagePath(task['obake_path'])" :text="task['task_name']"
+                :limit="calculateRemainingDays(task['dead_line'])" @click="ObakePage(task)" />
         </div>
     </div>
 </template>
 
-  
+<style>
+.show-range-button {
+    font-size: 30px;
+    background-color: #808080;
+    border-radius: 56px;
+    border: 3px solid #fff;
+    width: 250px;
+    padding: 12px 0;
+    text-align: center;
+}
+
+.flex-container {
+    display: inline-flex;
+}
+
+.select-valid-button {
+    font-size: 30px;
+    background-color: #808080;
+    border-radius: 56px;
+    border: 3px solid #000;
+    color: #000;
+    width: 250px;
+    padding: 12px 0;
+    text-align: center;
+}
+</style>
