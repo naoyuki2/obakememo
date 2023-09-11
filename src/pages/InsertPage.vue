@@ -1,7 +1,12 @@
 <template>
+  <div>
+    <!-- エラーメッセージがある場合に表示 -->
+    <div v-if="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
     <h1 class="date" :class="weekend(this.$route.query.week)">{{ this.$route.query.month }}月{{ this.$route.query.day }}日({{ this.$route.query.week }})の課題</h1>
-    <input class="IUgrave" type="text" id="task_name" placeholder="タスク名を入力" :class="weekend(this.$route.query.week)"><br>
-    <input class="IUgrave" type="text" id="task_description" placeholder="タスクの説明を入力" :class="weekend(this.$route.query.week)"><br>
+    <input class="IUgrave" type="text" id="task_name" placeholder="タスク名を入力" :class="weekend(this.$route.query.week)" v-model="taskName"><br>
+    <input class="IUgrave" type="text" id="task_description" placeholder="タスクの説明を入力" :class="weekend(this.$route.query.week)" v-model="taskDescription"><br>
     <div>
       <select class="IUgrave" id="obake_id" :class="weekend(this.$route.query.week)" v-model="SelectedObake">
         <option>お化けを選択</option>
@@ -12,6 +17,7 @@
     <div v-if="SelectedObake">
       <img :src="parentImagePath(SelectedObake.obake_path)" width="100" height="100" />
     </div>
+  </div>
 </template>
 
 <script>
@@ -22,17 +28,27 @@ export default {
     return {
       dataList: [],
       obakes: [],
-      SelectedObake:''
+      SelectedObake: '',
+      taskName: '', // タスク名の入力値を管理
+      taskDescription: '', // タスク説明の入力値を管理
+      errorMessage: '', // エラーメッセージを管理
     }
   },
   mounted() {
-        this.getObakeList()
-    },
+    this.getObakeList()
+  },
   methods: {
     async msgAdd() {
+      // 入力値の検証
+      if (!this.taskName || !this.taskDescription || !this.SelectedObake) {
+        this.errorMessage = 'エラー: 未入力の項目があります';
+        return; // エラーがある場合は処理を中断
+      }
+
+      // 以下のコードはエラーがない場合の処理
       try {
-        const tn = document.getElementById("task_name").value;
-        const td = document.getElementById("task_description").value;
+        const tn = this.taskName;
+        const td = this.taskDescription;
         const year = this.$route.query.year;
         const month = this.$route.query.month;
         const day = this.$route.query.day;
@@ -68,22 +84,22 @@ export default {
     },
     back(year, month, day) {
       this.$router.push({
-          name: 'TaskPage',
-          query: {
-              year: year,
-              month: month,
-              day: day
-          }
+        name: 'TaskPage',
+        query: {
+          year: year,
+          month: month,
+          day: day
+        }
       })
     },
     weekend(dayOfWeek) {
-        if(dayOfWeek === "土"){
-          return 'saturday';
-        }else if(dayOfWeek === "日"){
-          return 'sunday';
-        }else{
-          return '';
-        }
+      if (dayOfWeek === "土") {
+        return 'saturday';
+      } else if (dayOfWeek === "日") {
+        return 'sunday';
+      } else {
+        return '';
+      }
     },
     parentImagePath(imagePath) {
       const PathSplit = imagePath.split("/")
@@ -92,3 +108,10 @@ export default {
   },
 }
 </script>
+
+<style>
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+</style>
