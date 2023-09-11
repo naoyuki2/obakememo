@@ -4,7 +4,7 @@
     <input class="IUgrave" type="text" id="task_name" placeholder="タスク名を入力" :value="item.task_name" :class="weekend(this.$route.query.week)"><br>
     <input class="IUgrave" type="text" id="task_description" placeholder="タスクの説明を入力" :value="item.task_description" :class="weekend(this.$route.query.week)"><br>
     <select class="IUgrave" id="obake_id" :class="weekend(this.$route.query.week)" v-model="SelectedObake">
-      <option>お化けを選択</option>
+      <option value="" disabled selected style="display:none;">お化けを選択</option>
       <option v-for="obake in obakes" :key="obake.id" :value="obake">{{ obake.obake_id }}</option>
     </select>
   </div>

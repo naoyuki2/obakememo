@@ -9,12 +9,12 @@
     <input class="IUgrave" type="text" id="task_description" placeholder="タスクの説明を入力" :class="weekend(this.$route.query.week)" v-model="taskDescription"><br>
     <div>
       <select class="IUgrave" id="obake_id" :class="weekend(this.$route.query.week)" v-model="SelectedObake">
-        <option>お化けを選択</option>
+        <option value="" disabled selected style="display:none;">お化けを選択</option>
         <option v-for="obake in obakes" :key="obake.id" :value="obake">{{ obake.obake_id }}</option>
       </select>
     </div>
     <h1 class="plus" @click="msgAdd()" :class="weekend(this.$route.query.week)">この内容で課題を追加する</h1>
-    <div v-if="SelectedObake">
+    <div v-if="SelectedObake.obake_path">
       <img :src="parentImagePath(SelectedObake.obake_path)" width="100" height="100" />
     </div>
   </div>
@@ -102,8 +102,10 @@ export default {
       }
     },
     parentImagePath(imagePath) {
-      const PathSplit = imagePath.split("/")
-      return require(`@/assets/img/${PathSplit[3]}`); // 変数を使用して画像のパスを指定
+      if (imagePath) {
+        const PathSplit = imagePath.split("/")
+        return require(`@/assets/img/${PathSplit[3]}`); // 変数を使用して画像のパスを指定
+      }
     },
   },
 }
