@@ -6,7 +6,8 @@
                     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                         <div class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
                             <div class="date-display text-white">
-                                今日の日付は {{ currentDate }} です
+                                {{ currentDate }}
+                                <span class="weekday">{{ currentWeekday }}</span>
                             </div>
                         </div>
 
@@ -49,20 +50,34 @@
 
 <script>
 export default {
-    data() {
-        return {
-            currentDate: "",
-        };
+  data() {
+    return {
+      currentDate: "",
+      currentWeekday: "", // 曜日を格納するデータプロパティを追加
+    };
+  },
+  mounted() {
+    this.getCurrentDate();
+  },
+  methods: {
+    getCurrentDate() {
+      const now = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      this.currentDate = now.toLocaleDateString('ja-JP', options);
+
+      // 曜日を取得し、データプロパティに設定
+      const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+      const weekdayIndex = now.getDay(); // 0（日曜日）から 6（土曜日）までの値
+      this.currentWeekday = `${weekdays[weekdayIndex]}曜日`;
     },
-    mounted() {
-        this.getCurrentDate();
-    },
-    methods: {
-        getCurrentDate() {
-            const now = new Date();
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            this.currentDate = now.toLocaleDateString('ja-JP', options);
-        },
-    },
+  },
 };
 </script>
+
+<!-- スタイルを適用するためのスタイルセクションを追加 -->
+<style>
+.date-display {
+  font-size: 16px; /* 曜日のフォントサイズを調整 */
+  margin-left: 5px; /* 日付との間に少しスペースを入れる */
+}
+</style>
