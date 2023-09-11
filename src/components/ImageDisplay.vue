@@ -1,6 +1,6 @@
 <template>
   <div class="image-container">
-    <img class="img" :src="imagePath" alt="Image" :style="imageStyle">
+    <img class="img" :src="imagePath" alt="Image" :style="imageStyle" :class="{'image-large': css < 3}">
     <div class="text-container">
       <div class="overlay-text" ref="textElement" :style="imageStyle"></div>
     </div>
@@ -13,6 +13,7 @@ export default {
     imagePath: String,
     text: String,
     limit: String,
+    css: Number,
   },
   computed: {
     combinedText() {
@@ -34,6 +35,8 @@ export default {
     this.splitText();
     this.calculateMaxValues();
     this.startMoving();
+    console.log(this.CSS);
+    console.log(this.limit);
   },
   beforeUpdate() {
     this.calculateMaxValues();
@@ -126,5 +129,9 @@ export default {
 .image-container:hover .overlay-text {
   opacity: 1;
   /* カーソルを合わせたときに表示 */
+}
+
+.image-large{
+  transform: scale(1.5);
 }
 </style>

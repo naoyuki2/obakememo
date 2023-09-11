@@ -91,7 +91,16 @@ export default {
             const month = String(date.getMonth() + 1).padStart(2, '0'); // 月は0から始まるため+1する
             const day = String(date.getDate()).padStart(2, '0');
             return `${year}-${month}-${day} 00:00:00`;
-        }
+        },
+        calculateRemainingDays2(deadline) {
+            const oneDayMilliseconds = 24 * 60 * 60 * 1000; // 1日のミリ秒数
+            const deadlineDate = new Date(deadline);
+            const currentDate = new Date();
+            const differenceMilliseconds = deadlineDate - currentDate;
+            const remainingDays = Math.ceil(differenceMilliseconds / oneDayMilliseconds);
+
+            return remainingDays;
+        },
     }
 };
 </script>
@@ -113,8 +122,12 @@ export default {
             </div>
         </div>
         <div v-for="task in tasks" :key="task">
-            <ImageDisplay :imagePath="parentImagePath(task['obake_path'])" :text="task['task_name']"
-                :limit="calculateRemainingDays(task['dead_line'])" @click="ObakePage(task)" />
+            <ImageDisplay 
+            :imagePath="parentImagePath(task['obake_path'])" 
+            :text="task['task_name']"
+            :limit="calculateRemainingDays(task['dead_line'])"
+            :css="calculateRemainingDays2(task['dead_line'])" 
+            @click="ObakePage(task)" />
         </div>
     </div>
 </template>
