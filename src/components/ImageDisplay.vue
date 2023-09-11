@@ -50,7 +50,7 @@ export default {
     calculateMaxValues() {
       const imageWidth = 100;
       const imageHeight = 100;
-      this.maxX = (window.innerWidth - imageWidth) / 2;
+      this.maxX = (window.innerWidth - imageWidth) / 3;
       this.maxY = (window.innerHeight - imageHeight) / 2;
     },
     startMoving() {
