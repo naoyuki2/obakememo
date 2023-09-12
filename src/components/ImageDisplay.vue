@@ -1,6 +1,6 @@
 <template>
   <div class="image-container">
-    <img class="img" :src="imagePath" alt="Image" :style="imageStyle" :class="{'image-large': css < 3}">
+    <img class="img" :src="currentImagePath" alt="Image" :style="imageStyle" :class="{'image-large': css < 3}">
     <div class="text-container">
       <div class="overlay-text" ref="textElement" :style="imageStyle"></div>
     </div>
@@ -18,7 +18,15 @@ export default {
   computed: {
     combinedText() {
       return this.text + this.limit;
-    }
+    },
+    currentImagePath() {
+      // css の値に応じて画像のソースを切り替え
+      if (this.css < 0) {
+        return require('@/assets/img/ohaka2.png');
+      } else {
+        return this.imagePath;
+      }
+    },
   },
   data() {
     return {
@@ -34,9 +42,13 @@ export default {
   mounted() {
     this.splitText();
     this.calculateMaxValues();
-    this.startMoving();
-    console.log(this.CSS);
-    console.log(this.limit);
+    if (this.css >= 0) {
+      this.startMoving();
+      console.log(this.css);
+      console.log(this.limit);
+    }else{
+      this.setRandomPosition();
+    }
   },
   beforeUpdate() {
     this.calculateMaxValues();
@@ -90,6 +102,13 @@ export default {
 
       requestAnimationFrame(animate);
     },
+    setRandomPosition() {
+      const randomX = Math.floor(Math.random() * (this.maxX * 2)) - this.maxX;
+      const randomY = Math.floor(Math.random() * this.maxY);
+
+      this.imageStyle.top = `${randomY}px`;
+      this.imageStyle.left = `${randomX}px`;
+    },
   },
 };
 </script>
@@ -131,7 +150,7 @@ export default {
   /* カーソルを合わせたときに表示 */
 }
 
-.image-large{
+.image-large {
   transform: scale(1.5);
 }
 </style>
