@@ -35,8 +35,6 @@ export default {
     this.splitText();
     this.calculateMaxValues();
     this.startMoving();
-    console.log(this.CSS);
-    console.log(this.limit);
   },
   beforeUpdate() {
     this.calculateMaxValues();
