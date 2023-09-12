@@ -144,7 +144,7 @@ export default {
 }
 
 .flex-container {
-    display: inline-flex;
+    display: inline-flex !important;
 }
 
 .select-valid-button {
