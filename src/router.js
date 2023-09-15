@@ -48,6 +48,11 @@ const routes = [
         name:"UpdatePage",
         component: () => import('./pages/UpdatePage.vue')
     },
+    {
+        path:"/ReleasePage",
+        name:"ReleasePage",
+        component: () => import('./pages/ReleasePage.vue')
+    }
 ]
 
 const router = createRouter({

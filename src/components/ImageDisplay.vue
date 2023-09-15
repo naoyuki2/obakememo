@@ -44,8 +44,6 @@ export default {
     this.calculateMaxValues();
     if (this.css >= 0) {
       this.startMoving();
-      console.log(this.css);
-      console.log(this.limit);
     }else{
       this.setRandomPosition();
     }

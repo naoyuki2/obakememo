@@ -157,7 +157,7 @@ export default {
 </script>
 
 <template>
-  <div id="app">
+  <div id="app" class="no-scrollbar">
     <span class="btn-modal-close" @click="close($event)"></span>
     <!--<button><router-link to="/">戻る</router-link></button>-->
     <div>
@@ -218,7 +218,8 @@ th {
 }
 
 .center {
-  height: 100vh;
+  height: 80%;
+  width: 90%;
 }
 
 .calendar-title {
@@ -279,5 +280,8 @@ th {
 .today {
   color: #808080;
   background-color: #d3d3d3;
+}
+.no-scrollbar {
+  overflow-y: hidden;
 }
 </style>

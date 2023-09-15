@@ -35,8 +35,15 @@
                             </li>
                             <li class="Ghost">
                                 <div class="nav-link text-white">
+                                    <router-link to="ReleasePage" style="color: rgb(255, 255, 255);">
+                                    <img src="@/assets/img/Ghost.png" class="bi d-block mx-auto mb-1" width="45" height="30">おばけ図鑑
+                                    </router-link>
+                                </div>
+                            </li>
+                            <li class="Ghost">
+                                <div class="nav-link text-white">
                                     <router-link to="GhostPage" style="color: rgb(255, 255, 255);">
-                                    <img src="@/assets/img/Ghost.png" class="bi d-block mx-auto mb-1" width="45" height="30">通知欄
+                                    <img src="#" class="bi d-block mx-auto mb-1" width="45" height="30">通知
                                     </router-link>
                                 </div>
                             </li>

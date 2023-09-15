@@ -24,13 +24,16 @@ export default {
                 },
                 */
             ],
-            selectButtonValid: ""
+            selectButtonValid: "",
+            TotalPoint:0,
+            DailyPoint:0,
         };
     },
     created() {
-        const date = new Date();
-        [this.currentYear, this.currentMonth, this.currentDate] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
-        this.today = this.selectedDay = `${this.currentYear}-${('0' + this.currentMonth).slice(-2)}-${this.currentDate}`;
+        const now = new Date();
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        this.currentDate = now.toLocaleDateString('ja-JP', options);
+        this.loadPointsFromLocalStorage();
     },
     mounted() {
         this.getObakeList()
@@ -101,6 +104,27 @@ export default {
 
             return remainingDays;
         },
+        loadPointsFromLocalStorage() {
+            // ローカルストレージからポイントを読み込む
+            const storedTotalPoints = localStorage.getItem('totalPoints');
+            const storedDailyPoints = localStorage.getItem('dailyPoints');
+            if (storedTotalPoints !== null && storedDailyPoints !== null) {
+                this.TotalPoint = parseInt(storedTotalPoints, 10);
+                this.DailyPoint = parseInt(storedDailyPoints, 10);
+            }
+        },
+        increment() {
+            // 1増やす
+            this.TotalPoint += 1;
+            this.DailyPoint += 1;
+            // ローカルストレージに更新された Total Points を保存
+            this.savePointsToLocalStorage();
+        },
+        savePointsToLocalStorage() {
+            // ローカルストレージにポイントを保存
+            localStorage.setItem('totalPoints', this.TotalPoint);
+            localStorage.setItem('dailyPoints', this.DailyPoint);
+        },
     }
 };
 </script>
@@ -121,6 +145,10 @@ export default {
                 1ヵ月
             </div>
         </div>
+        <div>たまったポイント：{{ TotalPoint }}</div>
+        <div>今日ためたポイント：{{ DailyPoint }}／５</div>
+        <button @click="increment">increment</button>
+        <router-link to="/ReleasePage">ReleasePage</router-link>
         <div v-for="task in tasks" :key="task">
             <ImageDisplay 
             :imagePath="parentImagePath(task['obake_path'])" 

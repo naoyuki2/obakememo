@@ -19,6 +19,9 @@ export default {
       isVisible: false
     }
   },
+  created() {
+    this.loadPointsFromLocalStorage();
+  },
   beforeMount() {
     this.dataSetup()
   },
@@ -46,7 +49,29 @@ export default {
       }
       await EditDatabaseData(func, args)
       this.isVisible = true
-    }
+      this.incrementTotal();
+    },
+    savePointsToLocalStorage() {
+      // ローカルストレージにポイントを保存
+      localStorage.setItem('totalPoints', this.TotalPoint);
+      localStorage.setItem('dailyPoints', this.DailyPoint);
+    },
+    loadPointsFromLocalStorage() {
+      // ローカルストレージからポイントを読み込む
+      const storedTotalPoints = localStorage.getItem('totalPoints');
+      const storedDailyPoints = localStorage.getItem('dailyPoints');
+      if (storedTotalPoints !== null && storedDailyPoints !== null) {
+        this.TotalPoint = parseInt(storedTotalPoints, 10);
+        this.DailyPoint = parseInt(storedDailyPoints, 10);
+      }
+    },
+    incrementTotal() {
+      // 1増やす
+      this.TotalPoint += 1;
+      this.DailyPoint += 1;
+      // ローカルストレージに更新された Total Points を保存
+      this.savePointsToLocalStorage();
+    },
   }
 }
 </script>
@@ -56,7 +81,7 @@ export default {
     <div class="flex-container">
       <obakeDescArea class="obake-desc-area" :obakeDesc=obakeDesc></obakeDescArea>
       <div class="left-area">
-        <oharaiButton class="oharai-button" @buddhahood-call="buddhahood"></oharaiButton>
+        <oharaiButton class="oharai-button" @buddhahood-call="buddhahood" @incrementTotal-call="incrementTotal"></oharaiButton>
         <obakeShowArea class="obake-show-area" :obakePath=obakePath :taskName=taskName :isVisible=isVisible>
         </obakeShowArea>
       </div>
