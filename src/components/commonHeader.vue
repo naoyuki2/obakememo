@@ -1,3 +1,73 @@
+<script>
+export default {
+  props: {
+    outsideTotalPoint: {
+        type: Number,
+        default: 0
+    },
+    outsideDailyPoint: {
+        type: Number,
+        default: 0
+    }
+  },
+  data() {
+    return {
+      currentDate: "",
+      currentWeekday: "", // 曜日を格納するデータプロパティを追加
+      pointDataManage: []
+    };
+  },
+  created() {
+    this.initPointsLocalStorage();
+    this.loadPointsFromLocalStorage();
+  },
+  mounted() {
+    this.getCurrentDate();
+  },
+  methods: {
+    getCurrentDate() {
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        this.currentDate = now.toLocaleDateString('ja-JP', options);
+
+        // 曜日を取得し、データプロパティに設定
+        const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+        const weekdayIndex = now.getDay(); // 0（日曜日）から 6（土曜日）までの値
+        this.currentWeekday = `${weekdays[weekdayIndex]}曜日`;
+    },
+    initPointsLocalStorage() {
+        const dateTime = new Date();
+        const year = dateTime.getFullYear();
+        const month = dateTime.getMonth() + 1;
+        const day = dateTime.getDate();
+        const date = `${year}-${month}-${day}`;
+        let pointDataManage = JSON.parse(localStorage.getItem("pointDataManage"));
+        if (!pointDataManage) {
+            //ローカルストレージの初期化
+            var initPointDataManage = {
+                totalPoint: 0,
+                dailyPoint: 0,
+                updated: date
+            };
+            localStorage.setItem("pointDataManage",JSON.stringify(initPointDataManage));
+            return;
+        }
+
+      if (pointDataManage["updated"] !== date) {
+            let pointDataManage = JSON.parse(localStorage.getItem("pointDataManage"));
+            pointDataManage["updated"] = date;
+            pointDataManage["dailyPoint"] = 0;
+            localStorage.setItem("pointDataManage",JSON.stringify(pointDataManage));
+      }
+    },
+    loadPointsFromLocalStorage() {
+      // ローカルストレージからポイントを読み込む
+      this.pointDataManage = JSON.parse(localStorage.getItem("pointDataManage"));
+    },
+    }
+};
+</script>
+
 <template>
     <main>
         <header>
@@ -5,6 +75,10 @@
                 <div class="container">
                     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                         <div class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                            <div class="date-display text-white" style="text-align: left;">
+                                合計ポイント: {{ pointDataManage['totalPoint'] + outsideTotalPoint }}<br>
+                                <div style="padding-right: 30px;">デイリーポイント: {{ pointDataManage['dailyPoint'] + outsideDailyPoint }}/5</div>
+                            </div>
                             <div class="date-display text-white">
                                 {{ currentDate }}
                                 <span class="weekday">{{ currentWeekday }}</span>
@@ -55,31 +129,6 @@
     </main>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      currentDate: "",
-      currentWeekday: "", // 曜日を格納するデータプロパティを追加
-    };
-  },
-  mounted() {
-    this.getCurrentDate();
-  },
-  methods: {
-    getCurrentDate() {
-      const now = new Date();
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      this.currentDate = now.toLocaleDateString('ja-JP', options);
-
-      // 曜日を取得し、データプロパティに設定
-      const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
-      const weekdayIndex = now.getDay(); // 0（日曜日）から 6（土曜日）までの値
-      this.currentWeekday = `${weekdays[weekdayIndex]}曜日`;
-    },
-  },
-};
-</script>
 
 <!-- スタイルを適用するためのスタイルセクションを追加 -->
 <style>

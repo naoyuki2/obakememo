@@ -1,22 +1,11 @@
-<script>
-import commonHeader from './components/commonHeader.vue'
-
-export default {
-  components: {
-    commonHeader
-  }
-}
-</script>
-
 <template>
-  <commonHeader></commonHeader>
   <Transition>
     <router-view></router-view>
   </Transition>
 </template>
 
 <style>
-@import './assets/css/style.css';
+@import "./assets/css/style.css";
 
 .v-enter-active,
 .v-leave-active {

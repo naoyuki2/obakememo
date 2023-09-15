@@ -9,7 +9,7 @@ const { exec } = require('child_process');
 const xamppStartPath = 'C:\\xampp\\xampp_start.exe';
 const xamppStopPath = 'C:\\xampp\\xampp_stop.exe';
 
-exec(xamppStartPath, (error, stdout, stderr) => {
+exec(xamppStartPath, (error, stdout) => {
   if (error) {
     console.error(`Error launching .exe file: ${error}`);
   } else {
@@ -51,7 +51,7 @@ async function createWindow() {
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    exec(xamppStopPath, (error, stdout, stderr) => {
+    exec(xamppStopPath, (error, stdout) => {
       if (error) {
         console.error(`Error launching .exe file: ${error}`);
       } else {

@@ -1,6 +1,85 @@
+<script>
+import Popup from "@/components/PopUp.vue";
+import { EditDatabaseData, GetDatabaseData } from "../../database.js";
+import commonHeader from "@/components/commonHeader.vue";
+
+export default {
+  components: {
+    Popup,
+    commonHeader
+  },
+  data() {
+    return {
+      isPopupVisible: false,
+      SelectedImage: null,
+      obakes: [],
+      minusPoint: 0
+    };
+  },
+  mounted() {
+    this.getObakeList();
+  },
+  methods: {
+    showPopup(imageSrc, lock_id, value) {
+      this.SelectedImage = imageSrc;
+      this.lock = lock_id;
+      this.value = value;
+      this.isPopupVisible = true;
+    },
+    hidePopup() {
+      this.SelectedImage = null;
+      this.isPopupVisible = false;
+    },
+    path(path) {
+      const PathSplit = path.split("/");
+      return require(`@/assets/img/${PathSplit[3]}`);
+    },
+    async getObakeList() {
+      const func = "GetListAll";
+      const args = {
+        tbl: "obake",
+      };
+      const data = await GetDatabaseData(func, args);
+      this.obakes = data;
+    },
+    judge() {
+      let pointDataManage = JSON.parse(localStorage.getItem('pointDataManage'));
+      if (pointDataManage['totalPoint'] - this.value < 0) {
+        alert("ポイントが足りないよ");
+      } else {
+        this.Update();
+      }
+    },
+    async Update() {
+      try {
+        const func = "DbUpdate";
+        const args = {
+          tbl: "obake",
+          records: {
+            lock_id: 0,
+          },
+          where: `obake_path = '${this.SelectedImage}'`,
+        };
+        await EditDatabaseData(func, args);
+        let pointDataManage = JSON.parse(localStorage.getItem('pointDataManage'));
+        pointDataManage['totalPoint'] -= this.value;
+        localStorage.setItem('pointDataManage', JSON.stringify(pointDataManage));
+        this.minusPoint += -this.value;
+        this.hidePopup();
+        this.getObakeList();
+      } catch (error) {
+        console.error("エラーが発生しました:", error);
+      }
+    },
+  },
+};
+</script>
+
 <template>
+  <commonHeader :outsideTotalPoint="minusPoint"></commonHeader>
   <div>
-    <Popup v-if="isPopupVisible"
+    <Popup
+      v-if="isPopupVisible"
       @close="hidePopup"
       @Release="judge"
       :imagepath="SelectedImage"
@@ -9,103 +88,15 @@
     />
     <div class="image-grid">
       <div v-for="obake in obakes" :key="obake.id">
-        <img :src="path(obake.obake_path)" :class="{lock:obake.lock_id == 1}" @click="showPopup(obake.obake_path,obake.lock_id,obake.value)">
+        <img
+          :src="path(obake.obake_path)"
+          :class="{ lock: obake.lock_id === 1 }"
+          @click="showPopup(obake.obake_path, obake.lock_id, obake.value)"
+        />
       </div>
     </div>
   </div>
 </template>
-
-<script>
-import Popup from '@/components/PopUp.vue';
-import { EditDatabaseData,GetDatabaseData } from '../../database.js'
-
-export default {
-components: {
-Popup
-},
-data() {
-return {
-  isPopupVisible: false,
-  SelectedImage: null,
-  obakes:[],
-};
-},
-mounted() {
-this.getObakeList()
-this.loadPointsFromLocalStorage()
-},
-methods: {
-showPopup(imageSrc,lock_id,value) {
-  this.SelectedImage = imageSrc;
-  this.lock = lock_id;
-  this.value = value;
-  this.isPopupVisible = true;
-},
-hidePopup() {
-  this.SelectedImage = null;
-  this.isPopupVisible = false;
-},
-path(path) {
-  const PathSplit = path.split("/")
-  return require(`@/assets/img/${PathSplit[3]}`);
-},
-async getObakeList() {
-  const func = 'GetListAll'
-  const args = {
-    tbl: "obake",
-  }
-  const data = await GetDatabaseData(func, args)
-  this.obakes = data;
-},
-judge(){
-  if(this.TotalPoint - this.value < 0){
-    this.PayAlert();
-  }else{
-    this.Update();
-  }
-},
-async Update() {
-  try{ 
-    const func = 'DbUpdate';
-    const args = {
-      tbl: "obake",
-      records: {
-        lock_id:0,
-      },
-      where: `obake_path = '${this.SelectedImage}'`,
-    }
-    await EditDatabaseData(func, args)
-    this.PayPoint();
-    this.hidePopup();
-    this.getObakeList();
-  }catch(error){
-    console.error('エラーが発生しました:',error);
-  }
-},
-loadPointsFromLocalStorage() {
-  // ローカルストレージからポイントを読み込む
-  const storedTotalPoints = localStorage.getItem('totalPoints');
-  const storedDailyPoints = localStorage.getItem('dailyPoints');
-  if (storedTotalPoints !== null && storedDailyPoints !== null) {
-    this.TotalPoint = parseInt(storedTotalPoints, 10);
-    this.DailyPoint = parseInt(storedDailyPoints, 10);
-  }
-},
-PayPoint(){
-    this.TotalPoint -= this.value;
-    this.savePointsToLocalStorage();
-},
-savePointsToLocalStorage() {
-  // ローカルストレージにポイントを保存
-  localStorage.setItem('totalPoints', this.TotalPoint);
-  localStorage.setItem('dailyPoints', this.DailyPoint);
-},
-PayAlert(){
-  window.alert('ポイントが足りないよ');
-}
-}
-}
-</script>
 
 <style scoped>
 .image-grid {
@@ -131,5 +122,3 @@ img {
   opacity: 0.3;
 }
 </style>
-
-

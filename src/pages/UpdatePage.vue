@@ -1,26 +1,14 @@
-<template>
-  <h1 class="date" :class="weekend(this.$route.query.week)">{{ this.$route.query.month }}月{{ this.$route.query.day }}日({{ this.$route.query.week }})の課題</h1>
-  <div v-for="item in dataList" :key="item.id">
-    <input class="IUgrave" type="text" id="task_name" placeholder="タスク名を入力" :value="item.task_name" :class="weekend(this.$route.query.week)"><br>
-    <input class="IUgrave" type="text" id="task_description" placeholder="タスクの説明を入力" :value="item.task_description" :class="weekend(this.$route.query.week)"><br>
-    <select class="IUgrave" id="obake_id" :class="weekend(this.$route.query.week)" v-model="SelectedObake">
-      <option value="" disabled selected style="display:none;">お化けを選択</option>
-      <option v-for="obake in obakes" :key="obake.id" :value="obake">{{ obake.obake_id }}</option>
-    </select>
-  </div>
-  <h1 class="plus" @click="Update()" :class="weekend(this.$route.query.week)">この内容で課題を変更する</h1>
-  <div v-if="SelectedObake">
-    <img :src="parentImagePath(SelectedObake.obake_path)" width="100" height="100" />
-  </div>
-</template>
-
 <script>
 import { EditDatabaseData, GetDatabaseData } from '../../database.js'
+import commonHeader from '@/components/commonHeader.vue'
 
 export default{
+  components: {
+    commonHeader
+  },
   data() {
     return {
-      dataList: [], 
+      dataList: [],
       selectedPriority: null,
       obakes: [],
       SelectedObake: ''
@@ -101,3 +89,20 @@ export default{
   }
 }
 </script>
+
+<template>
+  <commonHeader></commonHeader>
+  <h1 class="date" :class="weekend(this.$route.query.week)">{{ this.$route.query.month }}月{{ this.$route.query.day }}日({{ this.$route.query.week }})の課題</h1>
+  <div v-for="item in dataList" :key="item.id">
+    <input class="IUgrave" type="text" id="task_name" placeholder="タスク名を入力" :value="item.task_name" :class="weekend(this.$route.query.week)"><br>
+    <input class="IUgrave" type="text" id="task_description" placeholder="タスクの説明を入力" :value="item.task_description" :class="weekend(this.$route.query.week)"><br>
+    <select class="IUgrave" id="obake_id" :class="weekend(this.$route.query.week)" v-model="SelectedObake">
+      <option value="" disabled selected style="display:none;">お化けを選択</option>
+      <option v-for="obake in obakes" :key="obake.id" :value="obake">{{ obake.obake_id }}</option>
+    </select>
+  </div>
+  <h1 class="plus" @click="Update()" :class="weekend(this.$route.query.week)">この内容で課題を変更する</h1>
+  <div v-if="SelectedObake">
+    <img :src="parentImagePath(SelectedObake.obake_path)" width="100" height="100" />
+  </div>
+</template>

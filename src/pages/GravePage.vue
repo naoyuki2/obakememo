@@ -1,7 +1,11 @@
 <script>
 import { GetDatabaseData } from '../../database.js'
+import commonHeader from '@/components/commonHeader.vue';
 
 export default {
+  components: {
+    commonHeader
+  },
   data() {
     return {
       tasks: {
@@ -100,6 +104,7 @@ export default {
 </script>
 
 <template>
+  <commonHeader></commonHeader>
   <div class="outer-container">
     <div class="inner-container">
       <div class="C1">

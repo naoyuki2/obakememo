@@ -2,13 +2,15 @@
 import obakeDescArea from "@/components/obakeDescArea.vue"
 import obakeShowArea from "@/components/obakeShowArea.vue"
 import oharaiButton from '@/components/oharaiButton.vue'
+import commonHeader from "@/components/commonHeader.vue"
 import { EditDatabaseData } from '../../database.js'
 
 export default {
   components: {
     obakeDescArea,
     obakeShowArea,
-    oharaiButton
+    oharaiButton,
+    commonHeader
   },
   data() {
     return {
@@ -16,11 +18,9 @@ export default {
       taskName: '',
       obakeDesc: '',
       obakePath: '',
-      isVisible: false
+      isVisible: false,
+      plusPoint: 0
     }
-  },
-  created() {
-    this.loadPointsFromLocalStorage();
   },
   beforeMount() {
     this.dataSetup()
@@ -51,42 +51,37 @@ export default {
       await EditDatabaseData(func, args)
       this.isVisible = true
       if(this.css >= 0){
-        this.incrementTotal();
+        this.savePointsToLocalStorage();
       }else{
-        window.alert('期限を過ぎたためポイントを獲得できません');
+        setTimeout(() => {
+          alert('期限を過ぎたためポイントを獲得できません');
+      }, 750);
       }
     },
     savePointsToLocalStorage() {
-      // ローカルストレージにポイントを保存
-      localStorage.setItem('totalPoints', this.TotalPoint);
-      localStorage.setItem('dailyPoints', this.DailyPoint);
-    },
-    loadPointsFromLocalStorage() {
-      // ローカルストレージからポイントを読み込む
-      const storedTotalPoints = localStorage.getItem('totalPoints');
-      const storedDailyPoints = localStorage.getItem('dailyPoints');
-      if (storedTotalPoints !== null && storedDailyPoints !== null) {
-        this.TotalPoint = parseInt(storedTotalPoints, 10);
-        this.DailyPoint = parseInt(storedDailyPoints, 10);
-      }
-    },
-    incrementTotal() {
-      // 1増やす
-      this.TotalPoint += 1;
-      this.DailyPoint += 1;
-      // ローカルストレージに更新された Total Points を保存
-      this.savePointsToLocalStorage();
+        let pointDataManage = JSON.parse(localStorage.getItem('pointDataManage'));
+        if (pointDataManage['dailyPoint'] < 5) {
+            pointDataManage['dailyPoint'] += 1;
+            pointDataManage['totalPoint'] += 1;
+            this.plusPoint = 1;
+            localStorage.setItem('pointDataManage', JSON.stringify(pointDataManage));
+        } else {
+            setTimeout(() => {
+              alert('今日の獲得ポイントは上限に達しました。');
+            }, 750);
+        }
     },
   }
 }
 </script>
 
 <template>
+  <commonHeader :outside-total-point="plusPoint" :outside-daily-point="plusPoint"></commonHeader>
   <div class="wrap">
     <div class="flex-container">
       <obakeDescArea class="obake-desc-area" :obakeDesc=obakeDesc></obakeDescArea>
       <div class="left-area">
-        <oharaiButton class="oharai-button" @buddhahood-call="buddhahood" @incrementTotal-call="incrementTotal"></oharaiButton>
+        <oharaiButton class="oharai-button" @buddhahood-call="buddhahood"></oharaiButton>
         <obakeShowArea class="obake-show-area" :obakePath=obakePath :taskName=taskName :isVisible=isVisible>
         </obakeShowArea>
       </div>

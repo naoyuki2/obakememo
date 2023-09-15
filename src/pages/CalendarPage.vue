@@ -1,7 +1,11 @@
 <script>
 import { GetDatabaseData } from "../../database.js";
+import commonHeader from "@/components/commonHeader.vue";
 
 export default {
+  components: {
+    commonHeader
+  },
   data() {
     return {
       today: "",
@@ -157,6 +161,7 @@ export default {
 </script>
 
 <template>
+  <commonHeader></commonHeader>
   <div id="app" class="no-scrollbar">
     <span class="btn-modal-close" @click="close($event)"></span>
     <!--<button><router-link to="/">戻る</router-link></button>-->
