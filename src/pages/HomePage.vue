@@ -148,7 +148,6 @@ export default {
         <div>たまったポイント：{{ TotalPoint }}</div>
         <div>今日ためたポイント：{{ DailyPoint }}／５</div>
         <button @click="increment">increment</button>
-        <router-link to="/ReleasePage">ReleasePage</router-link>
         <div v-for="task in tasks" :key="task">
             <ImageDisplay 
             :imagePath="parentImagePath(task['obake_path'])" 
