@@ -110,7 +110,7 @@ PayAlert(){
 <style scoped>
 .image-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr); /* 4つの列 */
+  grid-template-columns: repeat(6, 1fr); /* 4つの列 */
   grid-gap: 10px; /* 画像間のスペースを調整 */
   justify-items: center;
 }
@@ -122,8 +122,8 @@ PayAlert(){
 
 img {
   background-color: #f5f5f5;
-  width: 200px; /* 画像の幅を200pxに設定 */
-  height: 200px; /* 画像の高さも200pxに設定 */
+  width: 100%; /* 画像の幅を200pxに設定 */
+  height: 100%; /* 画像の高さも200pxに設定 */
   border: 3px solid black;
 }
 
