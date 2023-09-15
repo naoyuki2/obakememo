@@ -1,14 +1,18 @@
 <template>
+  <div>
     <Popup v-if="isPopupVisible"
-  @close="hidePopup"
-  @Release="judge"
-  :imagepath="SelectedImage"
-  :lock="lock"
-  :value="value"
-  />
-<div v-for="obake in obakes" :key="obake.id">
-    <img :src="path(obake.obake_path)" :class="{lock:obake.lock_id == 1}" @click="showPopup(obake.obake_path,obake.lock_id,obake.value)">
-</div>
+      @close="hidePopup"
+      @Release="judge"
+      :imagepath="SelectedImage"
+      :lock="lock"
+      :value="value"
+    />
+    <div class="image-grid">
+      <div v-for="obake in obakes" :key="obake.id">
+        <img :src="path(obake.obake_path)" :class="{lock:obake.lock_id == 1}" @click="showPopup(obake.obake_path,obake.lock_id,obake.value)">
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -97,21 +101,35 @@ savePointsToLocalStorage() {
   localStorage.setItem('dailyPoints', this.DailyPoint);
 },
 PayAlert(){
-
+  window.alert('ポイントが足りないよ');
 }
 }
 }
 </script>
 
 <style scoped>
-img {
-    background-color: #f5f5f5;
-    width: 200px;
-    height: 200px;
-    margin: 20px;
-    border: 3px solid black;
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 4つの列 */
+  grid-gap: 10px; /* 画像間のスペースを調整 */
+  justify-items: center;
 }
+
+.grid-item {
+  width: 100%;
+  text-align: center;
+}
+
+img {
+  background-color: #f5f5f5;
+  width: 200px; /* 画像の幅を200pxに設定 */
+  height: 200px; /* 画像の高さも200pxに設定 */
+  border: 3px solid black;
+}
+
 .lock {
-    opacity: 0.3;
+  opacity: 0.3;
 }
 </style>
+
+

@@ -50,7 +50,8 @@ export default {
                     taskId: task['task_id'],
                     taskName: task['task_name'],
                     taskDescription: task['task_description'],
-                    obakePath: task['obake_path']
+                    obakePath: task['obake_path'],
+                    css: this.calculateRemainingDays2(task['dead_line'])
                 },
             });
         },

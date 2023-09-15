@@ -32,6 +32,7 @@ export default {
       const description = this.dataProcessing(this.$route.query.taskDescription)
       this.obakeDesc = description
       this.obakePath = this.$route.query.obakePath
+      this.css = this.$route.query.css
     },
     dataProcessing(rawData) {
       let splitData = rawData.split("。")
@@ -49,7 +50,11 @@ export default {
       }
       await EditDatabaseData(func, args)
       this.isVisible = true
-      this.incrementTotal();
+      if(this.css >= 0){
+        this.incrementTotal();
+      }else{
+        window.alert('期限を過ぎたためポイントを獲得できません');
+      }
     },
     savePointsToLocalStorage() {
       // ローカルストレージにポイントを保存
