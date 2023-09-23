@@ -117,7 +117,7 @@ export default {
                             <li class="Ghost">
                                 <div class="nav-link text-white">
                                     <router-link to="GhostPage" style="color: rgb(255, 255, 255);">
-                                    <img src="#" class="bi d-block mx-auto mb-1" width="45" height="30">通知
+                                    <img src="@/assets/img/bell.png" class="bi d-block mx-auto mb-1" width="45" height="30">通知
                                     </router-link>
                                 </div>
                             </li>
